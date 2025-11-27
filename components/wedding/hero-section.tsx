@@ -1,15 +1,16 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
 import { ChevronDown, Heart, ChevronLeft, ChevronRight } from "@/components/icons"
 import { getRandomCopy, type WelcomeCopy } from "@/lib/wedding-copywriting"
 
 const weddingPhotos = [
   { id: 1, src: "/Wedding Photos/Wedding Document Photo.jpg", title: "证件合照", desc: "我们的故事开始" },
-  { id: 2, src: "/Wedding Photos/Groom's-Solo-Photos5.jpg", title: "新郎 · 张波", desc: "期待与你共度余生" },
-  { id: 3, src: "/Wedding Photos/Bride's-Solo-Photos5.jpg", title: "新娘 · 邓芮", desc: "最美的遇见" },
-  { id: 4, src: "/Wedding Photos/Son's-Photos5.jpg", title: "爱的结晶", desc: "家的温暖" },
+  { id: 2, src: "/Wedding Photos/Groom", title: "新郎 · 张波", desc: "期待与你共度余生" },
+  { id: 3, src: "/Wedding Photos/Bride", title: "新娘 · 邓芮", desc: "最美的遇见" },
+  { id: 4, src: "/Wedding Photos/Son", title: "爱的结晶", desc: "家的温暖" },
 ]
 
 function PhotoFrame({
@@ -71,12 +72,15 @@ function PhotoFrame({
         <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent z-20 pointer-events-none" />
 
         {/* 照片 */}
-        <img
+        <Image
           src={photo.src || "/placeholder.svg"}
           alt={photo.title}
+          width={256}
+          height={320}
           className="w-full h-full object-cover"
           onError={(e) => {
-            e.currentTarget.src = `/placeholder.svg?height=320&width=256&query=${encodeURIComponent(photo.title)}`
+            const target = e.currentTarget as HTMLImageElement;
+            target.src = `/placeholder.svg?height=320&width=256&query=${encodeURIComponent(photo.title)}`;
           }}
         />
 
@@ -190,12 +194,15 @@ function MobileGallery({
             onClick={() => onPhotoClick(weddingPhotos[activeIndex])}
           >
             <div className="relative w-full h-full rounded-xl overflow-hidden border-4 border-gold shadow-2xl">
-              <img
+              <Image
                 src={weddingPhotos[activeIndex].src || "/placeholder.svg"}
                 alt={weddingPhotos[activeIndex].title}
+                width={280}
+                height={380}
                 className="w-full h-full object-cover"
                 onError={(e) => {
-                  e.currentTarget.src = `/placeholder.svg?height=380&width=280&query=${encodeURIComponent(weddingPhotos[activeIndex].title)}`
+                  const target = e.currentTarget as HTMLImageElement;
+                  target.src = `/placeholder.svg?height=380&width=280&query=${encodeURIComponent(weddingPhotos[activeIndex].title)}`;
                 }}
               />
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-graphite/90 to-transparent p-4">
@@ -402,12 +409,15 @@ export default function HeroSection() {
               className="relative max-w-lg w-full mx-4 bg-card rounded-2xl overflow-hidden shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
-              <img
+              <Image
                 src={selectedPhoto.src || "/placeholder.svg"}
                 alt={selectedPhoto.title}
+                width={480}
+                height={320}
                 className="w-full h-80 object-cover"
                 onError={(e) => {
-                  e.currentTarget.src = `/placeholder.svg?height=320&width=480&query=${encodeURIComponent(selectedPhoto.title)}`
+                  const target = e.currentTarget as HTMLImageElement;
+                  target.src = `/placeholder.svg?height=320&width=480&query=${encodeURIComponent(selectedPhoto.title)}`;
                 }}
               />
               <div className="p-6">

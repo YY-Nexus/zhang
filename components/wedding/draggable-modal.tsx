@@ -51,7 +51,7 @@ export interface DraggableModalProps {
 }
 
 // 弹窗动画变体：scale + blur + 阶段性阴影
-const modalVariants = {
+const modalVariants: any = {
   hidden: {
     opacity: 0,
     scale: 0.9,
@@ -77,7 +77,7 @@ const modalVariants = {
   },
 }
 
-const reducedModalVariants = {
+const reducedModalVariants: any = {
   hidden: { opacity: 0, scale: 0.95 },
   visible: {
     opacity: 1,
@@ -91,7 +91,7 @@ const reducedModalVariants = {
   },
 }
 
-const backdropVariants = {
+const backdropVariants: any = {
   hidden: { opacity: 0, backdropFilter: "blur(0px)" },
   visible: {
     opacity: 1,
@@ -105,7 +105,7 @@ const backdropVariants = {
   },
 }
 
-const reducedBackdropVariants = {
+const reducedBackdropVariants: any = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { duration: 0.2 } },
   exit: { opacity: 0, transition: { duration: 0.15 } },

@@ -10,7 +10,7 @@ import GalleryDetailModalContent from "./modal-contents/gallery-detail-modal"
 const galleryPhotos = [
   {
     id: 1,
-    src: "/Wedding Photos/Groom's-Solo-Photos5.jpg",
+    src: "/Wedding Photos/Groom",
     category: "新郎",
     title: "新郎 · 张波",
     likes: 128,
@@ -22,7 +22,7 @@ const galleryPhotos = [
   },
   {
     id: 2,
-    src: "/Wedding Photos/Bride's-Solo-Photos5.jpg",
+    src: "/Wedding Photos/Bride",
     category: "新娘",
     title: "新娘 · 邓芮",
     likes: 256,
@@ -40,7 +40,7 @@ const galleryPhotos = [
   },
   {
     id: 4,
-    src: "/Wedding Photos/Son's-Photos5.jpg",
+    src: "/Wedding Photos/Son",
     category: "全家福",
     title: "爱的结晶",
     likes: 384,
@@ -48,7 +48,7 @@ const galleryPhotos = [
   },
   {
     id: 5,
-    src: "/Wedding Photos/Groom's-Solo-Photos6.jpg",
+    src: "/Wedding Photos/Groom",
     category: "新郎",
     title: "绅士风度",
     likes: 96,
@@ -56,7 +56,7 @@ const galleryPhotos = [
   },
   {
     id: 6,
-    src: "/Wedding Photos/Bride's-Solo-Photos6.jpg",
+    src: "/Wedding Photos/Bride",
     category: "新娘",
     title: "优雅绽放",
     likes: 192,
@@ -64,7 +64,7 @@ const galleryPhotos = [
   },
   {
     id: 7,
-    src: "/Wedding Photos/Son's-Photos6.jpg",
+    src: "/Wedding Photos/Son",
     category: "全家福",
     title: "幸福时光",
     likes: 288,
@@ -72,7 +72,7 @@ const galleryPhotos = [
   },
   {
     id: 8,
-    src: "/Wedding Photos/Son's-Photos7.jpg",
+    src: "/Wedding Photos/Son",
     category: "全家福",
     title: "温馨瞬间",
     likes: 176,
@@ -80,7 +80,7 @@ const galleryPhotos = [
   },
   {
     id: 9,
-    src: "/Wedding Photos/Groom's-Solo-Photos7.jpg",
+    src: "/Wedding Photos/Groom",
     category: "新郎",
     title: "阳光笑容",
     likes: 145,
@@ -88,7 +88,7 @@ const galleryPhotos = [
   },
   {
     id: 10,
-    src: "/Wedding Photos/Bride's-Solo-Photos7.jpg",
+    src: "/Wedding Photos/Bride",
     category: "新娘",
     title: "甜蜜微笑",
     likes: 210,
@@ -96,7 +96,7 @@ const galleryPhotos = [
   },
   {
     id: 11,
-    src: "/Wedding Photos/Groom's-Solo-Photos8.jpg",
+    src: "/Wedding Photos/Groom",
     category: "新郎",
     title: "帅气定格",
     likes: 118,
@@ -104,7 +104,7 @@ const galleryPhotos = [
   },
   {
     id: 12,
-    src: "/Wedding Photos/Son's-Photos8.jpg",
+    src: "/Wedding Photos/Son",
     category: "全家福",
     title: "童真笑颜",
     likes: 320,
@@ -112,7 +112,7 @@ const galleryPhotos = [
   },
   {
     id: 13,
-    src: "/Wedding Photos/Groom's-Solo-Photos9.jpg",
+    src: "/Wedding Photos/Groom",
     category: "新郎",
     title: "自信姿态",
     likes: 135,
@@ -120,7 +120,7 @@ const galleryPhotos = [
   },
   {
     id: 14,
-    src: "/Wedding Photos/Groom's-Solo-Photos10.jpg",
+    src: "/Wedding Photos/Groom",
     category: "新郎",
     title: "温柔目光",
     likes: 168,
@@ -128,7 +128,7 @@ const galleryPhotos = [
   },
   {
     id: 15,
-    src: "/Wedding Photos/Son's-Photos9.jpg",
+    src: "/Wedding Photos/Son",
     category: "全家福",
     title: "快乐成长",
     likes: 245,
@@ -136,7 +136,7 @@ const galleryPhotos = [
   },
   {
     id: 16,
-    src: "/Wedding Photos/Son's-Photos10.jpg",
+    src: "/Wedding Photos/Son",
     category: "全家福",
     title: "天真烂漫",
     likes: 298,
@@ -144,7 +144,7 @@ const galleryPhotos = [
   },
   {
     id: 17,
-    src: "/Wedding Photos/Son's-Photos11.jpg",
+    src: "/Wedding Photos/Son",
     category: "全家福",
     title: "纯真笑容",
     likes: 276,

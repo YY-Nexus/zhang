@@ -241,7 +241,7 @@ export class WeddingWebSocketClient {
       const requestId = crypto.randomUUID()
 
       // 监听响应
-      const handler = (data: SendMessageResult & { requestId?: string }) => {
+      const handler = (data: any) => {
         if (data.requestId === requestId) {
           this.off("message:received", handler)
           resolve(data)
@@ -283,7 +283,7 @@ export class WeddingWebSocketClient {
     return new Promise((resolve) => {
       const requestId = crypto.randomUUID()
 
-      const handler = (data: VoteResult & { requestId?: string }) => {
+      const handler = (data: any) => {
         if (data.requestId === requestId) {
           this.off("vote:update", handler)
           resolve(data)
@@ -314,7 +314,7 @@ export class WeddingWebSocketClient {
    */
   async getOnlineList(): Promise<OnlineListResult> {
     return new Promise((resolve) => {
-      const handler = (data: OnlineListResult) => {
+      const handler = (data: any) => {
         this.off("guest:list", handler)
         resolve(data)
       }
@@ -334,7 +334,7 @@ export class WeddingWebSocketClient {
    */
   async syncPosition(sessionId: string, state?: Partial<PlaybackState>): Promise<SyncResult> {
     return new Promise((resolve) => {
-      const handler = (data: SyncResult) => {
+      const handler = (data: any) => {
         this.off("sync:response", handler)
         resolve(data)
       }

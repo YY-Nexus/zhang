@@ -6,7 +6,9 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
- 
+  turbopack: {
+    root: '/Volumes/www/zhang',
+  },
 }
 
 export default nextConfig
