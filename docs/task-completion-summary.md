@@ -3,6 +3,7 @@
 ## 已完成任务
 
 ### 任务卡 01 - 首页 Hero 与 3D 无框画廊 ✅
+
 - [x] Three.js 无框画廊墙面渲染
 - [x] 倒计时组件（翻转动画）
 - [x] 左上 Logo 映射浮动 AI 按钮入口
@@ -10,6 +11,7 @@
 - [x] 移动端降级为平面滑动视图
 
 ### 任务卡 02 - 微透可拖拽弹窗系统 ✅
+
 - [x] 通用弹窗组件 `DraggableModal`
 - [x] 微透背景 `backdrop-blur`
 - [x] 拖拽手柄与边界约束
@@ -21,6 +23,7 @@
 - [x] Props 文档：`docs/draggable-modal-spec.ts`
 
 ### 任务卡 03 - 浮动 AI 智能交互按钮与面板 ✅
+
 - [x] Logo 底层映射常驻微透按钮
 - [x] 可拖拽 AI 面板
 - [x] 6 条开场话术 JSON
@@ -29,6 +32,7 @@
 - [x] 移动端与桌面端适配
 
 ### 任务卡 04 - 中文音乐播放器与投票系统 ✅
+
 - [x] 20 首中文曲目清单（`lib/music-playlist.ts`）
 - [x] 按环节分段（进场/敬茶/用餐/送客）
 - [x] 情绪标签（浪漫/欢快/温馨/喜庆/舒缓）
@@ -38,6 +42,7 @@
 - [x] 淡入淡出过渡
 
 ### 任务卡 05 - 日程与地点页面 ✅
+
 - [x] 日程展示（农历/公历并列）
 - [x] 地图卡片显示地址与坐标
 - [x] 一键导航（Apple Maps）
@@ -45,6 +50,7 @@
 - [x] 呼叫日志记录
 
 ### 任务卡 06 - RSVP 表单与来宾管理 ✅
+
 - [x] 智能 RSVP 表单
 - [x] 姓名、电话、出席状态
 - [x] 餐饮偏好、人数选择
@@ -52,6 +58,7 @@
 - [x] 提交成功反馈
 
 ### 任务卡 07 - 留言墙与实时聊天室 ✅
+
 - [x] 留言墙组件
 - [x] WebSocket 架构设计（`lib/websocket-architecture.ts`）
 - [x] 消息广播
@@ -60,6 +67,7 @@
 - [x] 降级轮询方案
 
 ### 任务卡 08 - 交互动效系统与动效库 ✅
+
 - [x] 动效规范文档（`lib/animation-system.ts`）
 - [x] Easing 缓动函数库
 - [x] 时长规范
@@ -69,6 +77,7 @@
 - [x] CSS 动画类（globals.css）
 
 ### 任务卡 09 - 设计系统与 UI Tokens ✅
+
 - [x] Design Tokens 文档（`lib/design-tokens.ts`）
 - [x] 颜色系统（暖金+石墨灰）
 - [x] 间距系统（4px 网格）
@@ -80,6 +89,7 @@
 - [x] CSS 变量输出
 
 ### 任务卡 10 - 响应式与无障碍适配 ✅
+
 - [x] 移动优先设计
 - [x] 触控手势友好
 - [x] 键盘导航
@@ -90,12 +100,14 @@
 - [x] 跳过导航链接样式
 
 ### 任务卡 11 - 页面性能优化 (部分完成)
+
 - [x] 图片懒加载（Next.js Image）
 - [x] 组件懒加载（Suspense）
 - [ ] Three.js LOD（待优化）
 - [ ] CDN 配置
 
 ### 任务卡 12 - 页面测试与验收清单 ✅
+
 - [x] 20 条测试用例（`lib/qa-test-cases.ts`）
 - [x] 弹窗拖拽边界约束测试
 - [x] 音乐投票并发处理测试
@@ -105,6 +117,7 @@
 ## 文件清单
 
 ### 组件文件
+
 - `components/wedding/hero-section.tsx` - 3D 画廊 Hero
 - `components/wedding/countdown-section.tsx` - 倒计时
 - `components/wedding/about-section.tsx` - 关于我们
@@ -118,6 +131,7 @@
 - `components/wedding/footer.tsx` - 页脚
 
 ### 弹窗内容组件
+
 - `components/wedding/modal-contents/music-modal.tsx`
 - `components/wedding/modal-contents/rsvp-modal.tsx`
 - `components/wedding/modal-contents/guest-list-modal.tsx`
@@ -125,6 +139,7 @@
 - `components/wedding/modal-contents/gallery-detail-modal.tsx`
 
 ### 库文件
+
 - `lib/music-playlist.ts` - 20 首曲目清单
 - `lib/music-player-api.ts` - 播放器 API
 - `lib/websocket-client.ts` - WebSocket 客户端
@@ -136,6 +151,7 @@
 - `lib/qa-test-cases.ts` - 测试用例
 
 ### 文档文件
+
 - `docs/zhang.md` - 新人信息与照片说明
 - `docs/UI提示词.md` - 任务卡清单
 - `docs/draggable-modal-spec.ts` - 弹窗组件规范

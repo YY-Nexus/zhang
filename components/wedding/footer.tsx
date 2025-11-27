@@ -60,6 +60,47 @@ export default function Footer() {
             Made with <Heart className="w-3 h-3 text-gold fill-gold" /> for our special day
           </p>
           <p className="text-cream/30 text-xs mt-2">© 2025 张波 & 邓芮 婚礼邀请函</p>
+
+          {/* YYC³ 品牌 */}
+          <div className="mt-8 pt-6 border-t border-cream/10">
+            <div className="flex items-center justify-center gap-3 mb-2">
+              <img 
+                src="/yyc3-logo-white.png" 
+                alt="YYC³" 
+                className="h-8 object-contain"
+              />
+            </div>
+            <p className="text-cream/40 text-xs italic mb-1">
+              万象归元于云枢 | 深栈智启新纪元
+            </p>
+            <p className="text-cream/30 text-xs italic mb-3">
+              <em><strong>All things converge in the cloud pivot; Deep stacks ignite a new era of intelligence</strong></em>
+            </p>
+            <div className="flex items-center justify-center gap-4 text-cream/30 text-xs">
+              <a 
+                href="mailto:admin@0379.email" 
+                className="hover:text-gold transition-colors"
+              >
+                admin@0379.email
+              </a>
+              <span>|</span>
+              <a 
+                href="https://github.com/YY-Nexus" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:text-gold transition-colors"
+              >
+                GitHub: YY-Nexus
+              </a>
+              <span>|</span>
+              <a 
+                href="https://zhang.0379.love" 
+                className="hover:text-gold transition-colors"
+              >
+                zhang.0379.love
+              </a>
+            </div>
+          </div>
         </motion.div>
       </div>
     </footer>

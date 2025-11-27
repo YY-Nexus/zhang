@@ -1,171 +1,27 @@
-"use client"
+'use client'
 
-import type React from "react"
-import { useState, useCallback } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { Heart, MessageCircle, Eye, Music } from "@/components/icons"
-import DraggableModal from "./draggable-modal"
-import GalleryDetailModalContent from "./modal-contents/gallery-detail-modal"
-
-const galleryPhotos = [
-  {
-    id: 1,
-    src: "/Wedding Photos/Groom",
-    category: "新郎",
-    title: "新郎 · 张波",
-    likes: 128,
-    comments: [
-      { name: "李明", text: "帅气！", time: "10分钟前" },
-      { name: "王芳", text: "西装很合身", time: "30分钟前" },
-    ],
-    linkedMusic: { title: "今天你要嫁给我", artist: "陶喆" },
-  },
-  {
-    id: 2,
-    src: "/Wedding Photos/Bride",
-    category: "新娘",
-    title: "新娘 · 邓芮",
-    likes: 256,
-    comments: [{ name: "赵丽", text: "太美了！", time: "5分钟前" }],
-    linkedMusic: { title: "最浪漫的事", artist: "赵咏华" },
-  },
-  {
-    id: 3,
-    src: "/Wedding Photos/Wedding Document Photo.jpg",
-    category: "合照",
-    title: "执子之手",
-    likes: 512,
-    comments: [],
-    linkedMusic: { title: "爱很简单", artist: "陶喆" },
-  },
-  {
-    id: 4,
-    src: "/Wedding Photos/Son",
-    category: "全家福",
-    title: "爱的结晶",
-    likes: 384,
-    comments: [{ name: "张伟", text: "宝宝好可爱！", time: "1小时前" }],
-  },
-  {
-    id: 5,
-    src: "/Wedding Photos/Groom",
-    category: "新郎",
-    title: "绅士风度",
-    likes: 96,
-    comments: [],
-  },
-  {
-    id: 6,
-    src: "/Wedding Photos/Bride",
-    category: "新娘",
-    title: "优雅绽放",
-    likes: 192,
-    comments: [],
-  },
-  {
-    id: 7,
-    src: "/Wedding Photos/Son",
-    category: "全家福",
-    title: "幸福时光",
-    likes: 288,
-    comments: [],
-  },
-  {
-    id: 8,
-    src: "/Wedding Photos/Son",
-    category: "全家福",
-    title: "温馨瞬间",
-    likes: 176,
-    comments: [],
-  },
-  {
-    id: 9,
-    src: "/Wedding Photos/Groom",
-    category: "新郎",
-    title: "阳光笑容",
-    likes: 145,
-    comments: [],
-  },
-  {
-    id: 10,
-    src: "/Wedding Photos/Bride",
-    category: "新娘",
-    title: "甜蜜微笑",
-    likes: 210,
-    comments: [],
-  },
-  {
-    id: 11,
-    src: "/Wedding Photos/Groom",
-    category: "新郎",
-    title: "帅气定格",
-    likes: 118,
-    comments: [],
-  },
-  {
-    id: 12,
-    src: "/Wedding Photos/Son",
-    category: "全家福",
-    title: "童真笑颜",
-    likes: 320,
-    comments: [],
-  },
-  {
-    id: 13,
-    src: "/Wedding Photos/Groom",
-    category: "新郎",
-    title: "自信姿态",
-    likes: 135,
-    comments: [],
-  },
-  {
-    id: 14,
-    src: "/Wedding Photos/Groom",
-    category: "新郎",
-    title: "温柔目光",
-    likes: 168,
-    comments: [],
-  },
-  {
-    id: 15,
-    src: "/Wedding Photos/Son",
-    category: "全家福",
-    title: "快乐成长",
-    likes: 245,
-    comments: [],
-  },
-  {
-    id: 16,
-    src: "/Wedding Photos/Son",
-    category: "全家福",
-    title: "天真烂漫",
-    likes: 298,
-    comments: [],
-  },
-  {
-    id: 17,
-    src: "/Wedding Photos/Son",
-    category: "全家福",
-    title: "纯真笑容",
-    likes: 276,
-    comments: [],
-  },
-]
-
-const categories = ["全部", "新郎", "新娘", "合照", "全家福"]
+import { Eye, Heart, MessageCircle, Music } from '@/components/icons'
+import { AnimatePresence, motion } from 'framer-motion'
+import type React from 'react'
+import { useCallback, useState } from 'react'
+import DraggableModal from './draggable-modal'
+import { categories, galleryPhotos } from './gallery-section-photos'
+import GalleryDetailModalContent from './modal-contents/gallery-detail-modal'
 
 export default function GallerySection() {
-  const [selectedCategory, setSelectedCategory] = useState("全部")
+  const [selectedCategory, setSelectedCategory] = useState('全部')
   const [selectedPhoto, setSelectedPhoto] = useState<(typeof galleryPhotos)[0] | null>(null)
   const [likedPhotos, setLikedPhotos] = useState<Set<number>>(new Set())
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const filteredPhotos =
-    selectedCategory === "全部" ? galleryPhotos : galleryPhotos.filter((p) => p.category === selectedCategory)
+    selectedCategory === '全部'
+      ? galleryPhotos
+      : galleryPhotos.filter(p => p.category === selectedCategory)
 
   const handleLike = (photoId: number, e: React.MouseEvent) => {
     e.stopPropagation()
-    setLikedPhotos((prev) => {
+    setLikedPhotos(prev => {
       const newSet = new Set(prev)
       if (newSet.has(photoId)) {
         newSet.delete(photoId)
@@ -198,7 +54,9 @@ export default function GallerySection() {
         >
           <span className="text-gold text-sm tracking-widest uppercase">Photo Gallery</span>
           <h2 className="text-3xl md:text-5xl font-bold text-foreground mt-2">精彩瞬间</h2>
-          <p className="text-muted-foreground mt-4 max-w-md mx-auto">点击照片查看详情、留言互动与关联音乐</p>
+          <p className="text-muted-foreground mt-4 max-w-md mx-auto">
+            点击照片查看详情、留言互动与关联音乐
+          </p>
         </motion.div>
 
         {/* 分类筛选 */}
@@ -209,14 +67,14 @@ export default function GallerySection() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="flex flex-wrap justify-center gap-3 mb-10"
         >
-          {categories.map((category) => (
+          {categories.map(category => (
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
               className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                 selectedCategory === category
-                  ? "bg-gold text-graphite shadow-lg shadow-gold/20"
-                  : "bg-card text-muted-foreground hover:bg-gold/10 hover:text-gold border border-border"
+                  ? 'bg-gold text-graphite shadow-lg shadow-gold/20'
+                  : 'bg-card text-muted-foreground hover:bg-gold/10 hover:text-gold border border-border'
               }`}
             >
               {category}
@@ -240,11 +98,13 @@ export default function GallerySection() {
                 onClick={() => handlePhotoClick(photo)}
               >
                 <img
-                  src={photo.src || "/placeholder.svg"}
+                  src={photo.src || '/placeholder.svg'}
                   alt={photo.title}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  onError={(e) => {
-                    e.currentTarget.src = `/placeholder.svg?height=400&width=400&query=${encodeURIComponent(photo.title)}`
+                  onError={e => {
+                    e.currentTarget.src = `/placeholder.svg?height=400&width=400&query=${encodeURIComponent(
+                      photo.title
+                    )}`
                   }}
                 />
 
@@ -256,11 +116,17 @@ export default function GallerySection() {
                   <h4 className="text-cream font-medium mb-2">{photo.title}</h4>
                   <div className="flex items-center gap-4">
                     <button
-                      onClick={(e) => handleLike(photo.id, e)}
+                      onClick={e => handleLike(photo.id, e)}
                       className="flex items-center gap-1 text-cream/80 hover:text-gold transition-colors"
                     >
-                      <Heart className={`w-4 h-4 ${likedPhotos.has(photo.id) ? "fill-gold text-gold" : ""}`} />
-                      <span className="text-xs">{photo.likes + (likedPhotos.has(photo.id) ? 1 : 0)}</span>
+                      <Heart
+                        className={`w-4 h-4 ${
+                          likedPhotos.has(photo.id) ? 'fill-gold text-gold' : ''
+                        }`}
+                      />
+                      <span className="text-xs">
+                        {photo.likes + (likedPhotos.has(photo.id) ? 1 : 0)}
+                      </span>
                     </button>
                     <span className="flex items-center gap-1 text-cream/80">
                       <MessageCircle className="w-4 h-4" />

@@ -1,15 +1,17 @@
-"use client"
+'use client'
 
-import { motion } from "framer-motion"
-import Image from "next/image"
-import { Heart, Phone } from "@/components/icons"
+import { Heart, Phone } from '@/components/icons'
+import { motion } from 'framer-motion'
+import Image from 'next/image'
 
 export default function AboutSection() {
   return (
     <section id="about" className="relative py-20 md:py-32 bg-secondary/30 overflow-hidden">
       {/* 装饰 */}
       <div className="absolute top-10 right-10 text-8xl text-gold/5 font-bold select-none">囍</div>
-      <div className="absolute bottom-10 left-10 text-8xl text-gold/5 font-bold select-none rotate-180">囍</div>
+      <div className="absolute bottom-10 left-10 text-8xl text-gold/5 font-bold select-none rotate-180">
+        囍
+      </div>
 
       <div className="container mx-auto px-4">
         {/* 标题 */}
@@ -36,7 +38,7 @@ export default function AboutSection() {
           >
             <div className="relative aspect-[3/4] rounded-2xl overflow-hidden mb-6">
               <Image
-                src="/Wedding Photos/Groom"
+                src="/wedding/Groom主婚单7.jpg"
                 alt="新郎 张波"
                 width={300}
                 height={400}
@@ -72,7 +74,7 @@ export default function AboutSection() {
           >
             <div className="relative aspect-[3/4] rounded-2xl overflow-hidden mb-6">
               <Image
-                src="/Wedding Photos/Bride"
+                src="/wedding/Bride-主纱2.jpg"
                 alt="新娘 邓芮"
                 width={300}
                 height={400}

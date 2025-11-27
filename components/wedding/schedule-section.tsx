@@ -1,40 +1,50 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { MapPin, Navigation, Clock, Heart, Coffee, Utensils, PartyPopper, Phone, AlertCircle } from "@/components/icons"
-import { Button } from "@/components/ui/button"
-import DraggableModal from "./draggable-modal"
+import {
+  AlertCircle,
+  Clock,
+  Coffee,
+  Heart,
+  MapPin,
+  Navigation,
+  PartyPopper,
+  Phone,
+  Utensils,
+} from '@/components/icons'
+import { Button } from '@/components/ui/button'
+import { motion } from 'framer-motion'
+import { useState } from 'react'
+import DraggableModal from './draggable-modal'
 
 const scheduleItems = [
   {
-    time: "10:00",
-    title: "迎亲出发",
-    desc: "新郎迎亲队伍出发，遵循洛阳传统婚俗",
+    time: '10:00',
+    title: '迎亲出发',
+    desc: '新郎迎亲队伍出发，遵循洛阳传统婚俗',
     icon: Heart,
   },
   {
-    time: "10:30",
-    title: "新娘出阁",
-    desc: "完成敬茶礼、改口茶等传统仪式",
+    time: '10:30',
+    title: '新娘出阁',
+    desc: '完成敬茶礼、改口茶等传统仪式',
     icon: Coffee,
   },
   {
-    time: "11:00",
-    title: "来宾签到",
-    desc: "宾客到场签到，入座就位",
+    time: '11:00',
+    title: '来宾签到',
+    desc: '宾客到场签到，入座就位',
     icon: Clock,
   },
   {
-    time: "11:30",
-    title: "婚礼仪式",
-    desc: "证婚、交换戒指、拜堂等仪式",
+    time: '11:30',
+    title: '婚礼仪式',
+    desc: '证婚、交换戒指、拜堂等仪式',
     icon: PartyPopper,
   },
   {
-    time: "12:00",
-    title: "婚宴开席",
-    desc: "新人敬酒，共享喜宴",
+    time: '12:00',
+    title: '婚宴开席',
+    desc: '新人敬酒，共享喜宴',
     icon: Utensils,
   },
 ]
@@ -48,14 +58,14 @@ export default function ScheduleSection() {
   } | null>(null)
 
   const contacts = [
-    { name: "张波", phone: "18736396660", role: "新郎" },
-    { name: "邓芮", phone: "19103895555", role: "新娘" },
+    { name: '张波', phone: '18736396660', role: '新郎' },
+    { name: '邓芮', phone: '19103895555', role: '新娘' },
   ]
 
   const handleNavigate = () => {
     window.open(
-      "https://maps.apple.com/place?address=%E4%B8%AD%E5%9B%BD%E6%B2%B3%E5%8D%97%E7%9C%81%E6%B4%9B%E9%98%B3%E5%B8%82%E5%AD%9F%E6%B4%A5%E5%8C%BA%E9%BA%BB%E5%B1%AF%E9%95%87%E5%9C%9F%E5%9C%B0%E6%89%80%E5%AF%B9%E9%9D%A2&coordinate=34.734682,112.367732&name=%E5%AF%8C%E8%B1%AA%E5%A4%A7%E9%85%92%E5%BA%97(%E9%98%BF%E6%96%B0%E5%A4%A7%E9%81%93%E5%BA%97)",
-      "_blank",
+      'https://maps.apple.com/place?address=%E4%B8%AD%E5%9B%BD%E6%B2%B3%E5%8D%97%E7%9C%81%E6%B4%9B%E9%98%B3%E5%B8%82%E5%AD%9F%E6%B4%A5%E5%8C%BA%E9%BA%BB%E5%B1%AF%E9%95%87%E5%9C%9F%E5%9C%B0%E6%89%80%E5%AF%B9%E9%9D%A2&coordinate=34.734682,112.367732&name=%E5%AF%8C%E8%B1%AA%E5%A4%A7%E9%85%92%E5%BA%97(%E9%98%BF%E6%96%B0%E5%A4%A7%E9%81%93%E5%BA%97)',
+      '_blank'
     )
   }
 
@@ -67,7 +77,7 @@ export default function ScheduleSection() {
   const confirmCall = () => {
     if (selectedContact) {
       window.location.href = `tel:${selectedContact.phone}`
-      console.log("[v0] 呼叫日志:", {
+      console.log('[v0] 呼叫日志:', {
         contact: selectedContact.name,
         phone: selectedContact.phone,
         timestamp: new Date().toISOString(),
@@ -145,8 +155,8 @@ export default function ScheduleSection() {
             {/* 地图预览 */}
             <div className="relative aspect-video rounded-2xl overflow-hidden border border-border">
               <img
-                src="/placeholder.svg?height=400&width=600"
-                alt="婚宴地点地图"
+                src="/wedding/hotel-add.png"
+                alt="富豪大酒店地址地图"
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-graphite/60 to-transparent" />
@@ -174,7 +184,7 @@ export default function ScheduleSection() {
 
             {/* 一键呼叫按钮 */}
             <div className="grid grid-cols-2 gap-4">
-              {contacts.map((contact) => (
+              {contacts.map(contact => (
                 <Button
                   key={contact.phone}
                   onClick={() => handleCallClick(contact)}
@@ -246,7 +256,10 @@ export default function ScheduleSection() {
               <Button variant="outline" onClick={() => setCallModalOpen(false)} className="flex-1">
                 取消
               </Button>
-              <Button onClick={confirmCall} className="flex-1 bg-gold hover:bg-gold-dark text-graphite">
+              <Button
+                onClick={confirmCall}
+                className="flex-1 bg-gold hover:bg-gold-dark text-graphite"
+              >
                 <Phone className="w-4 h-4 mr-2" />
                 确认拨打
               </Button>

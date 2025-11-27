@@ -425,3 +425,113 @@
     transform: none;
   }
 }
+
+/* PWA 和移动端增强优化 */
+
+/* iOS Safari 特定优化 */
+@supports (-webkit-touch-callout: none) {
+  /* iOS 安全区域适配 */
+  .ios-safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  .ios-safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  /* iOS 橡皮筋效果防止 */
+  body {
+    overscroll-behavior-y: none;
+  }
+  
+  /* iOS 流畅滚动 */
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* 触摸优化 */
+* {
+  /* 消除触摸延迟 */
+  touch-action: manipulation;
+  
+  /* 优化触摸高亮 */
+  -webkit-tap-highlight-color: transparent;
+  
+  /* 防止长按弹出菜单（特定元素） */
+  -webkit-touch-callout: none;
+}
+
+/* 允许选择的元素 */
+input,
+textarea,
+[contenteditable="true"] {
+  -webkit-touch-callout: default;
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* PWA Standalone 模式优化 */
+@media (display-mode: standalone) {
+  /* 全屏模式下的特殊样式 */
+  body {
+    /* iOS 状态栏高度补偿 */
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  /* 隐藏"添加到主屏幕"提示 */
+  .pwa-install-prompt {
+    display: none !important;
+  }
+}
+
+/* 横屏优化 */
+@media (orientation: landscape) and (max-height: 500px) {
+  /* 横屏时减小垂直间距 */
+  .landscape-compact {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+}
+
+/* 小屏设备优化 */
+@media (max-width: 640px) {
+  /* 更大的触摸目标 */
+  button,
+  .btn {
+    min-height: 48px;
+    padding: 12px 20px;
+  }
+  
+  /* 更大的字体（提升可读性） */
+  body {
+    font-size: 16px; /* 防止 iOS 自动缩放 */
+  }
+}
+
+/* 高性能动画 */
+@media (prefers-reduced-motion: no-preference) {
+  /* 使用 GPU 加速 */
+  .animate {
+    transform: translateZ(0);
+    will-change: transform, opacity;
+  }
+}
+
+/* 减弱动画模式 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* 暗色模式支持（为未来扩展预留） */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    /* 可以在这里添加暗色模式变量 */
+  }
+}

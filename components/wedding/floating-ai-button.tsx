@@ -1,101 +1,214 @@
-"use client"
+'use client'
 
-import { useState, useEffect } from "react"
-import { motion, AnimatePresence, useDragControls } from "framer-motion"
 import {
-  Sparkles,
-  X,
-  Phone,
+  Calendar,
+  CheckCircle,
+  GripHorizontal,
   MapPin,
   Music,
-  Calendar,
+  Phone,
   Send,
+  Sparkles,
   Users,
-  GripHorizontal,
-  CheckCircle,
-} from "@/components/icons"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import DraggableModal from "./draggable-modal"
-import MusicModalContent from "./modal-contents/music-modal"
-import RSVPModalContent from "./modal-contents/rsvp-modal"
-import GuestListModalContent from "./modal-contents/guest-list-modal"
-import ContactModalContent from "./modal-contents/contact-modal"
-import { chatTemplates } from "@/lib/ai-chat-templates"
+  X,
+} from '@/components/icons'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { useTypewriter } from '@/hooks/useTypewriter'
+import { chatTemplates, getSmartReply } from '@/lib/ai-chat-templates'
+import { AnimatePresence, motion, useDragControls } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
+import DraggableModal from './draggable-modal'
+import ContactModalContent from './modal-contents/contact-modal'
+import GuestListModalContent from './modal-contents/guest-list-modal'
+import MusicModalContent from './modal-contents/music-modal'
+import RSVPModalContent from './modal-contents/rsvp-modal'
 
 const quickActions = [
-  { icon: MapPin, label: "导航", action: "navigate_to_venue", emoji: "📍" },
-  { icon: CheckCircle, label: "签到", action: "guest_checkin", emoji: "✅" },
-  { icon: Music, label: "音乐", action: "play_music", emoji: "🎵" },
-  { icon: Calendar, label: "RSVP", action: "rsvp_confirm", emoji: "📝" },
-  { icon: Phone, label: "呼叫", action: "call_contact", emoji: "📞" },
+  { icon: MapPin, label: '导航', action: 'navigate_to_venue', emoji: '📍' },
+  { icon: CheckCircle, label: '签到', action: 'guest_checkin', emoji: '✅' },
+  { icon: Music, label: '音乐', action: 'play_music', emoji: '🎵' },
+  { icon: Calendar, label: 'RSVP', action: 'rsvp_confirm', emoji: '📝' },
+  { icon: Phone, label: '呼叫', action: 'call_contact', emoji: '📞' },
 ]
 
-type ModalType = "music" | "rsvp" | "guests" | "contact" | null
+type ModalType = 'music' | 'rsvp' | 'guests' | 'contact' | null
+
+interface ChatMessage {
+  role: 'ai' | 'user'
+  content: string
+  timestamp: Date
+}
+
+// 打字机消息组件
+function TypewriterMessage({ content }: { content: string }) {
+  const { displayedText, isTyping } = useTypewriter({
+    text: content,
+    speed: 30,
+    delay: 100,
+  })
+
+  return (
+    <div className="whitespace-pre-wrap">
+      {displayedText}
+      {isTyping && (
+        <motion.span
+          animate={{ opacity: [1, 0] }}
+          transition={{ duration: 0.5, repeat: Infinity }}
+          className="inline-block w-1 h-4 bg-current ml-0.5"
+        />
+      )}
+    </div>
+  )
+}
 
 export default function FloatingAIButton() {
   const [isOpen, setIsOpen] = useState(false)
-  const [message, setMessage] = useState("")
+  const [message, setMessage] = useState('')
   const [activeModal, setActiveModal] = useState<ModalType>(null)
-  const [chatMessages, setChatMessages] = useState<{ role: "ai" | "user"; content: string }[]>([])
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([])
+  const [isAITyping, setIsAITyping] = useState(false)
+  const [usedGreetings, setUsedGreetings] = useState<Set<number>>(new Set())
+  const chatEndRef = useRef<HTMLDivElement>(null)
   const dragControls = useDragControls()
 
-  // 打开面板时显示随机开场话术
+  // 自动滚动到最新消息
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [chatMessages])
+
+  // 打开面板时显示随机开场话术（不重复）
   useEffect(() => {
     if (isOpen && chatMessages.length === 0) {
-      const randomGreeting = chatTemplates.greetings[Math.floor(Math.random() * chatTemplates.greetings.length)]
-      setChatMessages([{ role: "ai", content: randomGreeting }])
+      const availableIndices = Array.from(
+        { length: chatTemplates.greetings.length },
+        (_, i) => i
+      ).filter(i => !usedGreetings.has(i))
+
+      const randomIndex =
+        availableIndices.length > 0
+          ? availableIndices[Math.floor(Math.random() * availableIndices.length)]
+          : Math.floor(Math.random() * chatTemplates.greetings.length)
+
+      setUsedGreetings(prev => new Set([...prev, randomIndex]))
+      const randomGreeting = chatTemplates.greetings[randomIndex]
+
+      setChatMessages([
+        {
+          role: 'ai',
+          content: randomGreeting,
+          timestamp: new Date(),
+        },
+      ])
     }
-  }, [isOpen, chatMessages.length])
+  }, [isOpen, chatMessages.length, usedGreetings])
 
   const handleAction = (action: string) => {
-    const shortcut = chatTemplates.shortcuts.find((s) => s.command === action)
-    const actionLabel = shortcut ? `${shortcut.emoji} ${shortcut.label}` : action
+    setIsAITyping(true)
 
-    switch (action) {
-      case "navigate_to_venue":
-        window.open(
-          "https://maps.apple.com/place?address=%E4%B8%AD%E5%9B%BD%E6%B2%B3%E5%8D%97%E7%9C%81%E6%B4%9B%E9%98%B3%E5%B8%82%E5%AD%9F%E6%B4%A5%E5%8C%BA%E9%BA%BB%E5%B1%AF%E9%95%87%E5%9C%9F%E5%9C%B0%E6%89%80%E5%AF%B9%E9%9D%A2&coordinate=34.734682,112.367732&name=%E5%AF%8C%E8%B1%AA%E5%A4%A7%E9%85%92%E5%BA%97(%E9%98%BF%E6%96%B0%E5%A4%A7%E9%81%93%E5%BA%97)",
-          "_blank",
-        )
-        setChatMessages((prev) => [...prev, { role: "ai", content: "📍 已为您打开导航，祝您一路顺风！" }])
-        break
-      case "call_contact":
-        setChatMessages((prev) => [...prev, { role: "ai", content: "📞 正在为您拨打新人电话..." }])
-        setActiveModal("contact")
-        break
-      case "contact_couple":
-        setActiveModal("contact")
-        break
-      case "play_music":
-        setActiveModal("music")
-        setChatMessages((prev) => [...prev, { role: "ai", content: "🎵 为您打开婚礼音乐播放器～" }])
-        break
-      case "guest_checkin":
-      case "rsvp_confirm":
-        setActiveModal("rsvp")
-        setChatMessages((prev) => [...prev, { role: "ai", content: "📝 请填写您的出席信息～" }])
-        break
-      case "guests":
-        setActiveModal("guests")
-        break
-    }
+    setTimeout(() => {
+      let aiResponse = ''
+
+      switch (action) {
+        case 'navigate_to_venue':
+          window.open(
+            'https://maps.apple.com/place?address=%E4%B8%AD%E5%9B%BD%E6%B2%B3%E5%8D%97%E7%9C%81%E6%B4%9B%E9%98%B3%E5%B8%82%E5%AD%9F%E6%B4%A5%E5%8C%BA%E9%BA%BB%E5%B1%AF%E9%95%87%E5%9C%9F%E5%9C%B0%E6%89%80%E5%AF%B9%E9%9D%A2&coordinate=34.734682,112.367732&name=%E5%AF%8C%E8%B1%AA%E5%A4%A7%E9%85%92%E5%BA%97(%E9%98%BF%E6%96%B0%E5%A4%A7%E9%81%93%E5%BA%97)',
+            '_blank'
+          )
+          aiResponse =
+            '📍 好嘞！导航已为您打开！\n富豪大酒店等着您呢～记得带上好心情！\n预计车程？跟着导航走准没错！一路顺风！🚗✨'
+          break
+
+        case 'call_contact':
+          aiResponse =
+            '📞 马上给您接通新人电话！\n请稍等，拨号中...嘟嘟嘟～\n记得说话温柔点，新人今天可是主角！😊'
+          setActiveModal('contact')
+          break
+
+        case 'contact_couple':
+          aiResponse =
+            '💌 联系方式来啦！\n新郎张波：187-3639-6660\n新娘邓芮：191-0389-5555\n想直接拨打吗？点下面的呼叫按钮哦！📱'
+          setActiveModal('contact')
+          break
+
+        case 'play_music':
+          aiResponse =
+            '🎵 音乐播放器已就位！20首经典婚礼曲目等您点播～\n喜欢哪首就投票，票数高的优先播放哦！\n来，一起嗨起来！🎉'
+          setActiveModal('music')
+          break
+
+        case 'guest_checkin':
+          aiResponse =
+            '✅ 欢迎签到！请填写您的大名和联系方式～\n签完名别忘了写几句祝福，新人超期待的！\n对了，记得告诉我们您带几位家人来，方便安排座位！😊'
+          setActiveModal('rsvp')
+          break
+
+        case 'rsvp_confirm':
+          aiResponse =
+            '📝 RSVP表单已备好！填一填让新人心里有个数～\n需要特殊餐食？有忌口？统统告诉我！\n咱们一定给您安排得明明白白！👨‍🍳'
+          setActiveModal('rsvp')
+          break
+
+        case 'guests':
+          aiResponse =
+            '👥 来宾名册在这里！看看都有谁来～\n说不定能碰到老朋友呢！婚礼就是个大party！🎪'
+          setActiveModal('guests')
+          break
+
+        default:
+          aiResponse = '🤔 这个功能正在完善中，敬请期待哦！'
+      }
+
+      setChatMessages(prev => [
+        ...prev,
+        {
+          role: 'ai',
+          content: aiResponse,
+          timestamp: new Date(),
+        },
+      ])
+      setIsAITyping(false)
+    }, 600)
   }
 
   const handleSend = () => {
     if (!message.trim()) return
-    setChatMessages((prev) => [
-      ...prev,
-      { role: "user", content: message },
-      { role: "ai", content: "💕 感谢您的消息！新人会非常开心收到您的祝福。" },
-    ])
-    setMessage("")
+
+    const userMessage: ChatMessage = {
+      role: 'user',
+      content: message,
+      timestamp: new Date(),
+    }
+
+    setChatMessages(prev => [...prev, userMessage])
+    setMessage('')
+    setIsAITyping(true)
+
+    // 模拟AI思考延迟
+    setTimeout(() => {
+      const aiReply = getSmartReply(message)
+      const aiMessage: ChatMessage = {
+        role: 'ai',
+        content: aiReply,
+        timestamp: new Date(),
+      }
+
+      setChatMessages(prev => [...prev, aiMessage])
+      setIsAITyping(false)
+    }, 500)
   }
 
   const handleShortcutClick = (command: string) => {
-    const shortcut = chatTemplates.shortcuts.find((s) => s.command === command)
+    const shortcut = chatTemplates.shortcuts.find(s => s.command === command)
     if (shortcut) {
-      setChatMessages((prev) => [...prev, { role: "user", content: `${shortcut.emoji} ${shortcut.label}` }])
+      setChatMessages(prev => [
+        ...prev,
+        {
+          role: 'user',
+          content: `${shortcut.emoji} ${shortcut.label}`,
+          timestamp: new Date(),
+        },
+      ])
       handleAction(command)
     }
   }
@@ -106,7 +219,7 @@ export default function FloatingAIButton() {
       <motion.button
         initial={{ opacity: 0, scale: 0 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 1, type: "spring", stiffness: 200 }}
+        transition={{ delay: 1, type: 'spring', stiffness: 200 }}
         whileHover={{
           scale: 1.1,
           transition: { duration: 0.15 },
@@ -114,19 +227,23 @@ export default function FloatingAIButton() {
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(true)}
         className={`
-          fixed top-4 left-4 z-50 w-12 h-12 md:w-14 md:h-14 rounded-full
-          bg-gold/80 backdrop-blur-sm text-graphite
+          fixed bottom-20 right-4 z-[100] w-14 h-14 md:w-16 md:h-16 rounded-full
+          bg-gold/90 backdrop-blur-sm
           flex items-center justify-center
-          shadow-lg shadow-gold/30
-          hover:bg-gold
-          transition-colors duration-300
-          ${isOpen ? "opacity-0 pointer-events-none" : "opacity-100"}
+          shadow-2xl shadow-gold/50
+          hover:bg-gold hover:scale-110
+          transition-all duration-300
+          ${isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}
         `}
-        aria-label="打开AI助手"
+        aria-label="打开YYC³ AI助手"
       >
-        <Sparkles className="w-6 h-6" />
+        <img 
+          src="/yyc3-logo-black.png" 
+          alt="YYC³" 
+          className="w-8 h-8 md:w-10 md:h-10 object-contain"
+        />
         {/* 脉冲动画环 */}
-        <span className="absolute inset-0 rounded-full bg-gold/30 animate-ping" />
+        <span className="absolute inset-0 rounded-full bg-gold/40 animate-ping" />
       </motion.button>
 
       {/* AI面板 - 可拖拽 */}
@@ -138,27 +255,28 @@ export default function FloatingAIButton() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-40 bg-graphite/30 backdrop-blur-sm md:bg-transparent md:backdrop-blur-none md:pointer-events-none"
+              className="fixed inset-0 z-[90] bg-graphite/30 backdrop-blur-sm md:bg-transparent md:backdrop-blur-none md:pointer-events-none"
               onClick={() => setIsOpen(false)}
             />
 
             {/* 面板 - 增强动画 */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.8, y: -20, filter: "blur(10px)" }}
-              animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, scale: 0.8, y: -20, filter: "blur(10px)" }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              initial={{ opacity: 0, scale: 0.8, y: -20, filter: 'blur(10px)' }}
+              animate={{ opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' }}
+              exit={{ opacity: 0, scale: 0.8, y: -20, filter: 'blur(10px)' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
               drag
+              dragConstraints={{ top: 0, left: 0, right: 0, bottom: 0 }}
+              dragElastic={0.1}
               dragControls={dragControls}
               dragMomentum={false}
-              dragElastic={0.1}
-              className="fixed top-4 left-4 z-50 w-[calc(100vw-2rem)] max-w-sm bg-card/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-border overflow-hidden"
-              style={{ touchAction: "none" }}
+              className="fixed top-20 left-4 md:top-4 md:left-auto md:right-4 z-[100] w-[calc(100vw-2rem)] max-w-sm bg-card/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-border overflow-hidden"
+              style={{ touchAction: 'none' }}
             >
               {/* 头部 - 拖拽手柄 */}
               <div
                 className="flex items-center justify-between p-4 bg-gold/10 border-b border-border cursor-grab active:cursor-grabbing"
-                onPointerDown={(e) => dragControls.start(e)}
+                onPointerDown={e => dragControls.start(e)}
               >
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-gold flex items-center justify-center">
@@ -185,7 +303,7 @@ export default function FloatingAIButton() {
               <div className="p-4 border-b border-border">
                 <p className="text-xs text-muted-foreground mb-3">快捷操作</p>
                 <div className="grid grid-cols-5 gap-2">
-                  {quickActions.map((action) => (
+                  {quickActions.map(action => (
                     <motion.button
                       key={action.action}
                       whileHover={{ scale: 1.05 }}
@@ -211,29 +329,71 @@ export default function FloatingAIButton() {
                     key={index}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
+                    transition={{ duration: 0.2 }}
+                    className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                   >
                     <div
-                      className={`max-w-[80%] px-3 py-2 rounded-xl text-sm whitespace-pre-wrap ${
-                        msg.role === "user" ? "bg-gold text-graphite" : "bg-muted text-foreground"
+                      className={`max-w-[80%] px-3 py-2 rounded-xl text-sm ${
+                        msg.role === 'user'
+                          ? 'bg-gold text-graphite rounded-br-sm'
+                          : 'bg-muted text-foreground rounded-bl-sm'
                       }`}
                     >
-                      {msg.content}
+                      {msg.role === 'ai' && index === chatMessages.length - 1 ? (
+                        <TypewriterMessage content={msg.content} />
+                      ) : (
+                        <div className="whitespace-pre-wrap">{msg.content}</div>
+                      )}
                     </div>
                   </motion.div>
                 ))}
+
+                {/* AI正在输入... */}
+                {isAITyping && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex justify-start"
+                  >
+                    <div className="bg-muted px-3 py-2 rounded-xl rounded-bl-sm">
+                      <div className="flex items-center gap-1">
+                        <motion.span
+                          animate={{ scale: [1, 1.2, 1] }}
+                          transition={{ duration: 0.6, repeat: Infinity, delay: 0 }}
+                          className="w-2 h-2 bg-gold rounded-full"
+                        />
+                        <motion.span
+                          animate={{ scale: [1, 1.2, 1] }}
+                          transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }}
+                          className="w-2 h-2 bg-gold rounded-full"
+                        />
+                        <motion.span
+                          animate={{ scale: [1, 1.2, 1] }}
+                          transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }}
+                          className="w-2 h-2 bg-gold rounded-full"
+                        />
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+
+                <div ref={chatEndRef} />
               </div>
 
               {/* 输入区域 */}
               <div className="p-4 border-t border-border flex gap-2">
                 <Input
                   value={message}
-                  onChange={(e) => setMessage(e.target.value)}
+                  onChange={e => setMessage(e.target.value)}
                   placeholder="输入祝福或问题..."
                   className="flex-1"
-                  onKeyDown={(e) => e.key === "Enter" && handleSend()}
+                  onKeyDown={e => e.key === 'Enter' && handleSend()}
                 />
-                <Button onClick={handleSend} size="icon" className="bg-gold hover:bg-gold/90 text-graphite">
+                <Button
+                  onClick={handleSend}
+                  size="icon"
+                  className="bg-gold hover:bg-gold/90 text-graphite"
+                >
                   <Send className="w-4 h-4" />
                 </Button>
               </div>
@@ -244,7 +404,7 @@ export default function FloatingAIButton() {
 
       {/* 各种功能弹窗 */}
       <DraggableModal
-        isOpen={activeModal === "music"}
+        isOpen={activeModal === 'music'}
         onClose={() => setActiveModal(null)}
         title="婚礼音乐"
         icon={<Music className="w-5 h-5" />}
@@ -254,7 +414,7 @@ export default function FloatingAIButton() {
       </DraggableModal>
 
       <DraggableModal
-        isOpen={activeModal === "rsvp"}
+        isOpen={activeModal === 'rsvp'}
         onClose={() => setActiveModal(null)}
         title="来宾签到"
         icon={<Calendar className="w-5 h-5" />}
@@ -264,7 +424,7 @@ export default function FloatingAIButton() {
       </DraggableModal>
 
       <DraggableModal
-        isOpen={activeModal === "guests"}
+        isOpen={activeModal === 'guests'}
         onClose={() => setActiveModal(null)}
         title="来宾名册"
         icon={<Users className="w-5 h-5" />}
@@ -274,7 +434,7 @@ export default function FloatingAIButton() {
       </DraggableModal>
 
       <DraggableModal
-        isOpen={activeModal === "contact"}
+        isOpen={activeModal === 'contact'}
         onClose={() => setActiveModal(null)}
         title="联系我们"
         icon={<Phone className="w-5 h-5" />}
