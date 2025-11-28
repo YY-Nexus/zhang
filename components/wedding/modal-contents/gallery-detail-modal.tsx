@@ -1,21 +1,24 @@
-"use client"
+'use client'
 
-import type React from "react"
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { Heart, MessageCircle, Share2, Download, ChevronLeft, ChevronRight, Send, Music } from "@/components/icons"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import type React from 'react'
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import {
+  Heart,
+  MessageCircle,
+  Share2,
+  Download,
+  ChevronLeft,
+  ChevronRight,
+  Send,
+  Music,
+} from '@/components/icons'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 
-interface Photo {
-  id: number
-  src: string
-  title: string
-  category: string
-  likes: number
-  comments: { name: string; text: string; time: string }[]
-  linkedMusic?: { title: string; artist: string }
-}
+import { galleryPhotos } from '../gallery-section-photos'
+
+type Photo = (typeof galleryPhotos)[number]
 
 interface GalleryDetailModalContentProps {
   photo: Photo
@@ -33,10 +36,10 @@ export default function GalleryDetailModalContent({
   const [isLiked, setIsLiked] = useState(false)
   const [likes, setLikes] = useState(photo.likes)
   const [comments, setComments] = useState(photo.comments || [])
-  const [newComment, setNewComment] = useState("")
+  const [newComment, setNewComment] = useState('')
   const [showComments, setShowComments] = useState(false)
 
-  const currentIndex = photos.findIndex((p) => p.id === photo.id)
+  const currentIndex = photos.findIndex(p => p.id === photo.id)
 
   const handlePrev = () => {
     const prevIndex = (currentIndex - 1 + photos.length) % photos.length
@@ -50,14 +53,14 @@ export default function GalleryDetailModalContent({
 
   const handleLike = () => {
     setIsLiked(!isLiked)
-    setLikes((prev) => (isLiked ? prev - 1 : prev + 1))
+    setLikes(prev => (isLiked ? prev - 1 : prev + 1))
   }
 
   const handleComment = (e: React.FormEvent) => {
     e.preventDefault()
     if (!newComment.trim()) return
-    setComments((prev) => [{ name: "访客", text: newComment, time: "刚刚" }, ...prev])
-    setNewComment("")
+    setComments(prev => [{ name: '访客', text: newComment, time: '刚刚' }, ...prev])
+    setNewComment('')
   }
 
   return (
@@ -71,7 +74,7 @@ export default function GalleryDetailModalContent({
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.3 }}
-            src={photo.src || "/placeholder.svg"}
+            src={photo.src || '/placeholder.svg'}
             alt={photo.title}
             className="max-w-full max-h-[60vh] object-contain"
           />
@@ -123,12 +126,12 @@ export default function GalleryDetailModalContent({
           {/* 操作按钮 */}
           <div className="flex items-center gap-2">
             <Button
-              variant={isLiked ? "default" : "outline"}
+              variant={isLiked ? 'default' : 'outline'}
               size="sm"
               onClick={handleLike}
-              className={isLiked ? "bg-gold text-graphite" : ""}
+              className={isLiked ? 'bg-gold text-graphite' : ''}
             >
-              <Heart className={`w-4 h-4 mr-1 ${isLiked ? "fill-current" : ""}`} />
+              <Heart className={`w-4 h-4 mr-1 ${isLiked ? 'fill-current' : ''}`} />
               {likes}
             </Button>
             <Button variant="outline" size="sm" onClick={() => setShowComments(!showComments)}>
@@ -149,14 +152,16 @@ export default function GalleryDetailModalContent({
           {showComments && (
             <motion.div
               initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
+              animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               className="flex-1 flex flex-col overflow-hidden"
             >
               {/* 评论列表 */}
               <div className="flex-1 overflow-y-auto p-4 space-y-3 max-h-48">
                 {comments.length === 0 ? (
-                  <p className="text-sm text-muted-foreground text-center py-4">暂无评论，快来抢沙发吧！</p>
+                  <p className="text-sm text-muted-foreground text-center py-4">
+                    暂无评论，快来抢沙发吧！
+                  </p>
                 ) : (
                   comments.map((comment, index) => (
                     <div key={index} className="flex gap-2">
@@ -179,11 +184,15 @@ export default function GalleryDetailModalContent({
               <form onSubmit={handleComment} className="p-4 border-t border-border flex gap-2">
                 <Input
                   value={newComment}
-                  onChange={(e) => setNewComment(e.target.value)}
+                  onChange={e => setNewComment(e.target.value)}
                   placeholder="写下您的评论..."
                   className="flex-1"
                 />
-                <Button type="submit" size="icon" className="bg-gold text-graphite hover:bg-gold/90">
+                <Button
+                  type="submit"
+                  size="icon"
+                  className="bg-gold text-graphite hover:bg-gold/90"
+                >
                   <Send className="w-4 h-4" />
                 </Button>
               </form>

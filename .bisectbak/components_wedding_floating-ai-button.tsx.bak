@@ -91,8 +91,7 @@ export default function FloatingAIButton() {
             ...prev,
             {
               role: 'ai',
-              content:
-                '💌 邀请函来啦！\n包含婚礼时间、地点、导航和联系方式～\n可以保存或分享给朋友哦！\n点击查看完整邀请函！🎊',
+              content: '💌 邀请函来啦！\n包含婚礼时间、地点、导航和联系方式～\n可以保存或分享给朋友哦！\n点击查看完整邀请函！🎊',
               timestamp: new Date(),
             },
           ])
@@ -270,9 +269,9 @@ export default function FloatingAIButton() {
         `}
         aria-label="打开YYC³ AI助手"
       >
-        <img
-          src="/yyc3-logo-black.png"
-          alt="YYC³"
+        <img 
+          src="/yyc3-logo-black.png" 
+          alt="YYC³" 
           className="w-8 h-8 md:w-10 md:h-10 object-contain"
         />
         {/* 脉冲动画环 */}
