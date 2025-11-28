@@ -68,6 +68,11 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&display=swap"
           rel="stylesheet"
         />
+        {/* Mobile / PWA meta */}
+        <meta name="theme-color" content="#D4AF37" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <link rel="apple-touch-icon" href="/yyc3-logo-red.png" />
       </head>
       <body className="font-sans antialiased touch-manipulation">
         <main id="main-content" className="min-h-screen">

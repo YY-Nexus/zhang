@@ -271,7 +271,7 @@ export default function FloatingAIButton() {
         aria-label="打开YYC³ AI助手"
       >
         <img
-          src="/yyc3-logo-black.png"
+          src="/yyc3-logo-red.png"
           alt="YYC³"
           className="w-8 h-8 md:w-10 md:h-10 object-contain"
         />
