@@ -2,13 +2,14 @@
 
 import { Suspense } from 'react'
 import dynamic from 'next/dynamic'
+import WeddingMusicPlayerClient from '@/components/client/wedding-music-player-client'
 import ScheduleSection from '@/components/client/schedule-section-client'
 import Navbar from '@/components/client/navbar-client'
 
 const FloatingAIButton = dynamic(() => import('@/components/wedding/floating-ai-button'), {
   ssr: false,
 })
-const MusicPlayer = dynamic(() => import('@/components/wedding/music-player-new'), { ssr: false })
+const MusicPlayer = WeddingMusicPlayerClient
 const PWAInstallPrompt = dynamic(() => import('@/components/pwa-install-prompt'), { ssr: false })
 
 /**

@@ -2,6 +2,7 @@
 
 import { Suspense } from 'react'
 import dynamic from 'next/dynamic'
+import WeddingMusicPlayerClient from '@/components/client/wedding-music-player-client'
 import PageNavigation, { type PageConfig } from '@/components/client/page-navigation-client'
 import HeroSection from '@/components/client/hero-section-client'
 import CountdownSection from '@/components/client/countdown-section-client'
@@ -18,7 +19,8 @@ import VideoShowcase from '@/components/client/video-showcase-client'
 const FloatingAIButton = dynamic(() => import('@/components/wedding/floating-ai-button'), {
   ssr: false,
 })
-const MusicPlayer = dynamic(() => import('@/components/wedding/music-player-new'), { ssr: false })
+// Use the existing client wrapper (which itself dynamic-imports the actual player)
+const MusicPlayer = WeddingMusicPlayerClient
 const PWAInstallPrompt = dynamic(() => import('@/components/pwa-install-prompt'), { ssr: false })
 
 // 页面1: 首页 - Hero + 倒计时
