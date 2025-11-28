@@ -1,0 +1,38 @@
+name: CI — Clean Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies (ci)
+        run: |
+          npm ci
+
+      - name: Run production build (capture logs)
+        env:
+          NODE_ENV: production
+          NEXT_TELEMETRY_DISABLED: '1'
+          NEXT_DISABLE_DEVTOOLS: '1'
+        run: |
+          NODE_OPTIONS="--enable-source-maps --trace-warnings" node node_modules/next/dist/bin/next build > build.log 2>&1 || true
+
+      - name: Upload build log
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log
+          path: build.log
