@@ -147,10 +147,11 @@ export default function PageNavigation({ pages, initialPage = 0 }: PageNavigatio
             onClick={() => goToPage(index)}
             whileHover={{ scale: 1.2 }}
             whileTap={{ scale: 0.9 }}
-            className={`group relative flex items-center justify-center transition-all ${
+            className={`group relative flex items-center justify-center transition-all min-w-[44px] min-h-[44px] focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 rounded-full ${
               currentPage === index ? "scale-125" : ""
             }`}
             aria-label={`前往${page.title}`}
+            aria-current={currentPage === index ? "page" : undefined}
             disabled={isTransitioning}
           >
             {/* 圆点指示器 */}
@@ -181,12 +182,13 @@ export default function PageNavigation({ pages, initialPage = 0 }: PageNavigatio
         <motion.button
           onClick={goToPreviousPage}
           disabled={currentPage === 0 || isTransitioning}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          className={`w-12 h-12 rounded-full bg-card/80 backdrop-blur-xl border border-border flex items-center justify-center transition-all ${
+          whileHover={{ scale: currentPage === 0 ? 1 : 1.1 }}
+          whileTap={{ scale: currentPage === 0 ? 1 : 0.9 }}
+          className={`w-12 h-12 min-w-[44px] min-h-[44px] rounded-full bg-card/80 backdrop-blur-xl border border-border flex items-center justify-center transition-all focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 ${
             currentPage === 0 ? "opacity-30 cursor-not-allowed" : "hover:bg-gold hover:border-gold hover:text-graphite"
           }`}
           aria-label="上一页"
+          aria-disabled={currentPage === 0 || isTransitioning}
         >
           <ChevronLeft className="w-5 h-5" />
         </motion.button>
@@ -200,14 +202,15 @@ export default function PageNavigation({ pages, initialPage = 0 }: PageNavigatio
         <motion.button
           onClick={goToNextPage}
           disabled={currentPage === pages.length - 1 || isTransitioning}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          className={`w-12 h-12 rounded-full bg-card/80 backdrop-blur-xl border border-border flex items-center justify-center transition-all ${
+          whileHover={{ scale: currentPage === pages.length - 1 ? 1 : 1.1 }}
+          whileTap={{ scale: currentPage === pages.length - 1 ? 1 : 0.9 }}
+          className={`w-12 h-12 min-w-[44px] min-h-[44px] rounded-full bg-card/80 backdrop-blur-xl border border-border flex items-center justify-center transition-all focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 ${
             currentPage === pages.length - 1
               ? "opacity-30 cursor-not-allowed"
               : "hover:bg-gold hover:border-gold hover:text-graphite"
           }`}
           aria-label="下一页"
+          aria-disabled={currentPage === pages.length - 1 || isTransitioning}
         >
           <ChevronRight className="w-5 h-5" />
         </motion.button>

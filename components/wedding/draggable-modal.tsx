@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { useRef, useEffect, useCallback, useState } from "react"
-import { motion, AnimatePresence, useDragControls, type PanInfo } from "framer-motion"
+import { motion, AnimatePresence, useDragControls, type PanInfo, type Variants } from "framer-motion"
 import { X, GripHorizontal, Minimize2, Maximize2, Minus } from "@/components/icons"
 
 export interface DraggableModalProps {
@@ -51,7 +51,7 @@ export interface DraggableModalProps {
 }
 
 // 弹窗动画变体：scale + blur + 阶段性阴影
-const modalVariants: any = {
+const modalVariants: Variants = {
   hidden: {
     opacity: 0,
     scale: 0.9,
@@ -77,7 +77,7 @@ const modalVariants: any = {
   },
 }
 
-const reducedModalVariants: any = {
+const reducedModalVariants: Variants = {
   hidden: { opacity: 0, scale: 0.95 },
   visible: {
     opacity: 1,
@@ -91,7 +91,7 @@ const reducedModalVariants: any = {
   },
 }
 
-const backdropVariants: any = {
+const backdropVariants: Variants = {
   hidden: { opacity: 0, backdropFilter: "blur(0px)" },
   visible: {
     opacity: 1,
@@ -105,13 +105,13 @@ const backdropVariants: any = {
   },
 }
 
-const reducedBackdropVariants: any = {
+const reducedBackdropVariants: Variants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { duration: 0.2 } },
   exit: { opacity: 0, transition: { duration: 0.15 } },
 }
 
-export default function DraggableModal({
+function DraggableModal({
   isOpen,
   onClose,
   title,
@@ -366,3 +366,5 @@ export default function DraggableModal({
     </AnimatePresence>
   )
 }
+
+export default DraggableModal

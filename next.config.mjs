@@ -8,7 +8,9 @@ const nextConfig = {
   },
   experimental: {
     optimizePackageImports: ['@react-three/fiber', '@react-three/drei', 'three']
-  }
+  },
+  // 支持Docker部署
+  output: 'standalone',
 }
 
 export default nextConfig

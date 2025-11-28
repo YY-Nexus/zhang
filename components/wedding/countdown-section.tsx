@@ -26,7 +26,7 @@ function FlipNumber({ value, label }: { value: number; label: string }) {
       className="flex flex-col items-center"
     >
       <div className="relative">
-        <div className="w-16 h-20 md:w-24 md:h-28 bg-gradient-to-b from-graphite to-graphite-light rounded-xl flex items-center justify-center shadow-lg border border-gold/20">
+        <div className="w-16 h-20 md:w-24 md:h-28 bg-linear-to-b from-graphite to-graphite-light rounded-xl flex items-center justify-center shadow-lg border border-gold/20">
           <span className="text-3xl md:text-5xl font-bold text-gold tabular-nums">
             {value.toString().padStart(2, "0")}
           </span>

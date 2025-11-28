@@ -12,6 +12,7 @@ export const galleryPhotos = [
       { name: '王芳', text: '西装很合身', time: '30分钟前' },
     ],
     linkedMusic: { title: '今天你要嫁给我', artist: '沫言' },
+    aspectRatio: '4/3',
   },
   {
     id: 2,
@@ -20,6 +21,7 @@ export const galleryPhotos = [
     title: '绅士风度（主婚照）',
     likes: 96,
     comments: [],
+    aspectRatio: '4/3',
   },
   {
     id: 3,
@@ -28,6 +30,7 @@ export const galleryPhotos = [
     title: '阳光笑容',
     likes: 145,
     comments: [],
+    aspectRatio: '9/16',
   },
   {
     id: 4,
@@ -36,6 +39,7 @@ export const galleryPhotos = [
     title: '温柔目光',
     likes: 168,
     comments: [],
+    aspectRatio: '4/3',
   },
   {
     id: 5,
@@ -44,6 +48,7 @@ export const galleryPhotos = [
     title: '帅气定格',
     likes: 118,
     comments: [],
+    aspectRatio: '9/16',
   },
   
   // 新娘照片 - 5张不同的照片
@@ -55,6 +60,7 @@ export const galleryPhotos = [
     likes: 256,
     comments: [{ name: '赵丽', text: '太美了！简直是仙女！', time: '5分钟前' }],
     linkedMusic: { title: '只有你', artist: '沫言' },
+    aspectRatio: '4/3',
   },
   {
     id: 7,
@@ -63,6 +69,7 @@ export const galleryPhotos = [
     title: '优雅绽放（主婚纱照）',
     likes: 192,
     comments: [],
+    aspectRatio: '9/16',
   },
   {
     id: 8,
@@ -71,6 +78,7 @@ export const galleryPhotos = [
     title: '甜蜜微笑（主婚纱照）',
     likes: 210,
     comments: [],
+    aspectRatio: '4/3',
   },
   {
     id: 9,
@@ -79,6 +87,7 @@ export const galleryPhotos = [
     title: '美丽瞬间',
     likes: 185,
     comments: [],
+    aspectRatio: '9/16',
   },
   {
     id: 10,
@@ -87,6 +96,7 @@ export const galleryPhotos = [
     title: '幸福笑容',
     likes: 240,
     comments: [],
+    aspectRatio: '4/3',
   },
   
   // 合照 - 使用主婚合影和动漫合影
@@ -101,22 +111,25 @@ export const galleryPhotos = [
       { name: '家人', text: '恭喜恭喜！永结同心！', time: '2小时前' },
     ],
     linkedMusic: { title: '爱你一万年', artist: '沫语' },
+    aspectRatio: '4/3',
   },
   {
     id: 21,
-    src: '/wedding/wedding-主婚合影1.jpg',
+    src: '/wedding/wedding-主婚合影2.jpg',
     category: '合照',
-    title: '幸福时刻',
+    title: '幸福时刻（主婚合影）',
     likes: 666,
     comments: [],
+    aspectRatio: '4/3',
   },
   {
     id: 22,
-    src: '/wedding/wedding-主婚合影2.jpg',
+    src: '/wedding/wedding-动漫合影2.jpg',
     category: '合照',
     title: '甜蜜瞬间',
     likes: 555,
     comments: [],
+    aspectRatio: '9/16',
   },
   {
     id: 23,
@@ -125,6 +138,7 @@ export const galleryPhotos = [
     title: '浪漫动漫风',
     likes: 444,
     comments: [],
+    aspectRatio: '4/3',
   },
   {
     id: 24,
@@ -133,6 +147,7 @@ export const galleryPhotos = [
     title: '结婚证照',
     likes: 999,
     comments: [],
+    aspectRatio: '4/3',
   },
   
   // 全家福 - 9张不同的照片
@@ -143,6 +158,7 @@ export const galleryPhotos = [
     title: '爱的结晶',
     likes: 384,
     comments: [{ name: '张伟', text: '宝宝好可爱！', time: '1小时前' }],
+    aspectRatio: '9/16',
   },
   {
     id: 13,
@@ -151,6 +167,7 @@ export const galleryPhotos = [
     title: '幸福时光',
     likes: 288,
     comments: [],
+    aspectRatio: '4/3',
   },
   {
     id: 14,
@@ -159,6 +176,7 @@ export const galleryPhotos = [
     title: '温馨瞬间',
     likes: 276,
     comments: [],
+    aspectRatio: '9/16',
   },
   {
     id: 15,
@@ -167,6 +185,7 @@ export const galleryPhotos = [
     title: '童真笑颜',
     likes: 320,
     comments: [],
+    aspectRatio: '4/3',
   },
   {
     id: 16,
@@ -175,6 +194,7 @@ export const galleryPhotos = [
     title: '快乐成长',
     likes: 245,
     comments: [],
+    aspectRatio: '4/3',
   },
   {
     id: 17,
@@ -183,6 +203,7 @@ export const galleryPhotos = [
     title: '天真烂漫',
     likes: 298,
     comments: [],
+    aspectRatio: '9/16',
   },
   {
     id: 18,
@@ -191,6 +212,7 @@ export const galleryPhotos = [
     title: '纯真笑容',
     likes: 276,
     comments: [],
+    aspectRatio: '4/3',
   },
   {
     id: 19,
@@ -199,6 +221,7 @@ export const galleryPhotos = [
     title: '快乐童年',
     likes: 312,
     comments: [],
+    aspectRatio: '9/16',
   },
   {
     id: 20,
@@ -207,6 +230,7 @@ export const galleryPhotos = [
     title: '幸福家庭',
     likes: 352,
     comments: [],
+    aspectRatio: '4/3',
   },
 ]
 

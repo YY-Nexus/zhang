@@ -4,18 +4,12 @@ import { motion } from "framer-motion"
 import { Phone, MessageCircle, Navigation, MapPin, Copy, Check } from "@/components/icons"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
+import { venueInfo, openNavigation, openMapApp, makeCall, copyAddress } from "@/lib/navigation-utils"
 
 const contacts = [
   { name: "新郎 张波", phone: "18736396660", role: "groom" },
   { name: "新娘 邓芮", phone: "19103895555", role: "bride" },
 ]
-
-const venueInfo = {
-  name: "富豪大酒店(阿新大道店)",
-  address: "河南省洛阳市孟津区将军路57号",
-  mapsUrl:
-    "https://maps.apple.com/place?address=%E4%B8%AD%E5%9B%BD%E6%B2%B3%E5%8D%97%E7%9C%81%E6%B4%9B%E9%98%B3%E5%B8%82%E5%AD%9F%E6%B4%A5%E5%8C%BA%E9%BA%BB%E5%B1%AF%E9%95%87%E5%9C%9F%E5%9C%B0%E6%89%80%E5%AF%B9%E9%9D%A2&coordinate=34.734682,112.367732&name=%E5%AF%8C%E8%B1%AA%E5%A4%A7%E9%85%92%E5%BA%97(%E9%98%BF%E6%96%B0%E5%A4%A7%E9%81%93%E5%BA%97)",
-}
 
 export default function ContactModalContent() {
   const [copiedPhone, setCopiedPhone] = useState<string | null>(null)
@@ -27,7 +21,8 @@ export default function ContactModalContent() {
   }
 
   const handleCall = (phone: string) => {
-    window.location.href = `tel:${phone}`
+    // 使用优化的电话拨打函数（自动处理桌面端和移动端）
+    makeCall(phone)
   }
 
   return (
@@ -88,7 +83,7 @@ export default function ContactModalContent() {
         </h4>
         <div className="bg-card rounded-xl border border-border overflow-hidden">
           {/* 地图预览 */}
-          <div className="h-32 bg-gradient-to-br from-gold/10 to-gold/5 flex items-center justify-center">
+          <div className="h-32 bg-linear-to-br from-gold/10 to-gold/5 flex items-center justify-center">
             <div className="text-center">
               <MapPin className="w-8 h-8 text-gold mx-auto mb-2" />
               <p className="text-sm font-medium">{venueInfo.name}</p>
@@ -96,18 +91,66 @@ export default function ContactModalContent() {
           </div>
           <div className="p-4">
             <p className="text-sm text-muted-foreground mb-3">{venueInfo.address}</p>
-            <div className="flex gap-2">
-              <Button variant="outline" className="flex-1 bg-transparent" onClick={() => handleCopy(venueInfo.address)}>
-                <Copy className="w-4 h-4 mr-2" />
-                复制地址
-              </Button>
-              <Button
-                className="flex-1 bg-gold text-graphite hover:bg-gold/90"
-                onClick={() => window.open(venueInfo.mapsUrl, "_blank")}
-              >
-                <Navigation className="w-4 h-4 mr-2" />
-                开始导航
-              </Button>
+            <div className="flex flex-col gap-2">
+              <div className="flex gap-2">
+                <Button 
+                  variant="outline" 
+                  className="flex-1 bg-transparent" 
+                  onClick={async () => {
+                    const success = await copyAddress()
+                    if (success) {
+                      setCopiedPhone('address')
+                      setTimeout(() => setCopiedPhone(null), 2000)
+                    }
+                  }}
+                >
+                  {copiedPhone === 'address' ? (
+                    <>
+                      <Check className="w-4 h-4 mr-2 text-green-500" />
+                      已复制
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-4 h-4 mr-2" />
+                      复制地址
+                    </>
+                  )}
+                </Button>
+                <Button
+                  className="flex-1 bg-gold text-graphite hover:bg-gold/90"
+                  onClick={() => openNavigation()}
+                >
+                  <Navigation className="w-4 h-4 mr-2" />
+                  开始导航
+                </Button>
+              </div>
+              {/* 多地图选择（移动端显示） */}
+              <div className="grid grid-cols-3 gap-2 mt-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="text-xs"
+                  onClick={() => openMapApp('amap')}
+                >
+                  高德地图
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="text-xs"
+                  onClick={() => openMapApp('baidu')}
+                >
+                  百度地图
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="text-xs"
+                  onClick={() => openMapApp('google')}
+                >
+                  Google地图
+                </Button>
+              </div>
             </div>
           </div>
         </div>

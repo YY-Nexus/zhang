@@ -7,7 +7,7 @@ export default function Footer() {
   return (
     <footer className="relative py-16 bg-graphite text-cream overflow-hidden">
       {/* 装饰 */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-gold/50 to-transparent" />
 
       <div className="container mx-auto px-4">
         <motion.div

@@ -11,7 +11,7 @@ import InteractionSection from "@/components/wedding/interaction-section"
 import EntertainmentZone from "@/components/wedding/entertainment-zone"
 import ChatRoom from "@/components/wedding/chat-room"
 import FloatingAIButton from "@/components/wedding/floating-ai-button"
-import MusicPlayer from "@/components/wedding/music-player"
+import MusicPlayer from "@/components/wedding/music-player-new"
 import GuestSignIn from "@/components/wedding/guest-sign-in"
 import Footer from "@/components/wedding/footer"
 import VideoShowcase from "@/components/wedding/video-showcase"
@@ -79,49 +79,56 @@ export default function PaginatedWedding() {
       title: "首页",
       emoji: "💒",
       component: <HomePage />,
-      bgGradient: "bg-gradient-to-b from-graphite via-graphite/95 to-graphite/90",
+      bgGradient: "bg-linear-to-b from-graphite via-graphite/95 to-graphite/90",
     },
     {
       id: "about",
       title: "关于我们",
       emoji: "💕",
       component: <AboutPage />,
-      bgGradient: "bg-gradient-to-br from-rose-900/20 via-graphite to-graphite",
+      bgGradient: "bg-linear-to-br from-rose-900/20 via-graphite to-graphite",
     },
     {
       id: "schedule",
       title: "婚礼日程",
       emoji: "📅",
       component: <SchedulePage />,
-      bgGradient: "bg-gradient-to-br from-blue-900/20 via-graphite to-graphite",
+      bgGradient: "bg-linear-to-br from-blue-900/20 via-graphite to-graphite",
     },
     {
       id: "gallery",
       title: "照片画廊",
       emoji: "📸",
       component: <GalleryPage />,
-      bgGradient: "bg-gradient-to-br from-purple-900/20 via-graphite to-graphite",
+      bgGradient: "bg-linear-to-br from-purple-900/20 via-graphite to-graphite",
+    },
+    {
+      id: "videos",
+      title: "婚礼视频",
+      emoji: "🎬",
+      component: <VideoShowcase variant={1} />,
+      bgGradient: "bg-linear-to-br from-emerald-900/20 via-graphite to-graphite",
     },
     {
       id: "entertainment",
       title: "娱乐休闲",
       emoji: "🎮",
       component: <EntertainmentPage />,
-      bgGradient: "bg-gradient-to-br from-indigo-900/20 via-graphite to-graphite",
+      bgGradient: "bg-linear-to-br from-indigo-900/20 via-graphite to-graphite",
     },
     {
       id: "chat",
       title: "聊天室",
       emoji: "💬",
       component: <ChatPage />,
-      bgGradient: "bg-gradient-to-br from-green-900/20 via-graphite to-graphite",
+      bgGradient: "bg-linear-to-br from-green-900/20 via-graphite to-graphite",
     },
     {
       id: "interaction",
       title: "互动留言",
       emoji: "✍️",
       component: <InteractionPage />,
-      bgGradient: "bg-gradient-to-br from-amber-900/20 via-graphite to-graphite",
+      bgGradient: "bg-linear-to-br from-amber-900/20 via-graphite to-graphite",
     },
   ]
 

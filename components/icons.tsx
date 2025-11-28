@@ -399,3 +399,33 @@ export const Armchair = createIcon(
     <path d="M19 18v2" />
   </>
 )
+
+export const QrCode = createIcon(
+  <>
+    <rect x="2" y="2" width="6" height="6" />
+    <rect x="16" y="2" width="6" height="6" />
+    <rect x="16" y="16" width="6" height="6" />
+    <rect x="2" y="16" width="6" height="6" />
+    <rect x="10" y="10" width="4" height="4" />
+    <rect x="2" y="10" width="2" height="2" />
+    <rect x="6" y="10" width="2" height="2" />
+    <rect x="10" y="2" width="2" height="2" />
+    <rect x="14" y="10" width="2" height="2" />
+    <rect x="10" y="16" width="2" height="2" />
+    <rect x="18" y="10" width="2" height="2" />
+    <rect x="10" y="6" width="2" height="2" />
+    <rect x="14" y="6" width="2" height="2" />
+    <rect x="2" y="6" width="2" height="2" />
+    <rect x="6" y="6" width="2" height="2" />
+    <rect x="18" y="6" width="2" height="2" />
+    <rect x="6" y="14" width="2" height="2" />
+    <rect x="2" y="14" width="2" height="2" />
+    <rect x="14" y="14" width="2" height="2" />
+    <rect x="18" y="14" width="2" height="2" />
+    <rect x="18" y="18" width="2" height="2" />
+    <rect x="14" y="18" width="2" height="2" />
+    <rect x="10" y="18" width="2" height="2" />
+    <rect x="6" y="18" width="2" height="2" />
+    <rect x="2" y="18" width="2" height="2" />
+  </>
+)

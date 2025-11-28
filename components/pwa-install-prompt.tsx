@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Download } from '@/components/icons'
+import { X, Download } from './icons'
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>

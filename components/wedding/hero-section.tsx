@@ -2,16 +2,65 @@
 
 import { ChevronDown, ChevronLeft, ChevronRight, Eye, Heart } from '@/components/icons'
 import { getRandomCopy, type WelcomeCopy } from '@/lib/wedding-copywriting'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion, Variants } from 'framer-motion'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
-const weddingPhotos = [
-  { id: 1, src: '/wedding/wedding-主婚合影.jpg', title: '执子之手 · 与子偕老', desc: '我们的幸福时刻' },
-  { id: 2, src: '/wedding/Groom主婚单9.jpg', title: '新郎 · 张波', desc: '期待与你共度余生' },
-  { id: 3, src: '/wedding/Bride-主纱1.jpg', title: '新娘 · 邓芮', desc: '最美的遇见' },
-  { id: 4, src: '/wedding/son15.jpg', title: '爱的结晶', desc: '家的温暖' },
-]
+// 从gallery-section-photos导入照片数据，优先使用标注主婚的竖屏照片
+import { galleryPhotos } from './gallery-section-photos'
+
+// 优先选择标注为主婚的竖屏照片
+const getPrioritizedWeddingPhotos = () => {
+  // 提取所有标注为"主婚"的照片
+  const mainWeddingPhotos = galleryPhotos.filter(photo => 
+    photo.title.includes('主婚') || photo.src.includes('主婚')
+  )
+  
+  // 按类别组织：合照、新郎、新娘
+  const mainCouplePhoto = mainWeddingPhotos.find(photo => photo.category === '合照') || 
+    galleryPhotos.find(photo => photo.category === '合照')
+  const mainGroomPhoto = mainWeddingPhotos.find(photo => photo.category === '新郎') || 
+    galleryPhotos.find(photo => photo.category === '新郎')
+  const mainBridePhoto = mainWeddingPhotos.find(photo => photo.category === '新娘') || 
+    galleryPhotos.find(photo => photo.category === '新娘')
+  const familyPhoto = galleryPhotos.find(photo => photo.category === '全家福')
+  
+  // 返回组织好的竖屏照片列表，确保不重复
+  const result = []
+  if (mainCouplePhoto) result.push(mainCouplePhoto)
+  if (mainGroomPhoto && !result.some(p => p.id === mainGroomPhoto.id)) result.push(mainGroomPhoto)
+  if (mainBridePhoto && !result.some(p => p.id === mainBridePhoto.id)) result.push(mainBridePhoto)
+  if (familyPhoto && !result.some(p => p.id === familyPhoto.id)) result.push(familyPhoto)
+  
+  // 转换格式以匹配原有结构
+  return result.map(photo => ({
+    id: photo.id,
+    src: photo.src,
+    title: photo.title,
+    desc: photo.category === '合照' ? '我们的幸福时刻' :
+          photo.category === '新郎' ? '期待与你共度余生' :
+          photo.category === '新娘' ? '最美的遇见' : '家的温暖'
+  }))
+}
+
+// 获取优先的婚礼照片列表
+const weddingPhotos = getPrioritizedWeddingPhotos()
+
+// 定义动画变体类型
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+}
+
+const itemVariants: Variants = {
+  hidden: { y: 20, opacity: 0, transition: { type: "spring" as const, stiffness: 300 } },
+  visible: { y: 0, opacity: 1, transition: { type: "spring" as const, stiffness: 300 } },
+}
 
 // 计算倒计时
 function useCountdown() {
@@ -47,7 +96,7 @@ function useCountdown() {
   return timeLeft
 }
 
-export default function HeroSection() {
+function HeroSection() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [selectedPhoto, setSelectedPhoto] = useState<(typeof weddingPhotos)[0] | null>(null)
   const [isMobile, setIsMobile] = useState(false)
@@ -75,7 +124,7 @@ export default function HeroSection() {
   }, [])
 
   return (
-    <section className="relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-graphite via-graphite/98 to-graphite/95">
+    <section className="relative min-h-screen w-full overflow-hidden bg-linear-to-br from-graphite via-graphite/98 to-graphite/95">
       {/* 背景装饰 */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-20 left-10 w-64 h-64 bg-gold/10 rounded-full blur-3xl" />
@@ -158,6 +207,7 @@ export default function HeroSection() {
                     fill
                     className="object-cover"
                     priority
+                    quality={85}
                     sizes="(max-width: 768px) 100vw, 50vw"
                     onError={e => {
                       const target = e.currentTarget as HTMLImageElement
@@ -171,7 +221,7 @@ export default function HeroSection() {
                   <div className="absolute inset-0 rounded-3xl border-[6px] border-gold shadow-[0_0_40px_rgba(212,175,55,0.4)] group-hover:shadow-[0_0_60px_rgba(212,175,55,0.6)] transition-shadow duration-300" />
 
                   {/* 底部信息 */}
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-graphite/95 via-graphite/70 to-transparent p-6 md:p-8">
+                  <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-graphite/95 via-graphite/70 to-transparent p-6 md:p-8">
                     <h3 className="text-cream font-bold text-xl md:text-2xl lg:text-3xl mb-2">
                       {weddingPhotos[activeIndex].title}
                     </h3>
@@ -334,6 +384,26 @@ export default function HeroSection() {
                 </p>
               </motion.div>
             )}
+
+            {/* 查看邀请函按钮 */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.9, duration: 0.8 }}
+              className="flex justify-center lg:justify-start"
+            >
+              <button
+                onClick={() => {
+                  // 触发AI助手显示邀请函
+                  const event = new CustomEvent('openInvitation')
+                  window.dispatchEvent(event)
+                }}
+                className="px-6 py-3 bg-gold hover:bg-gold-dark text-graphite font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all min-h-[48px] flex items-center gap-2"
+              >
+                <Heart className="w-5 h-5 fill-gold" />
+                查看邀请函
+              </button>
+            </motion.div>
           </div>
         </motion.div>
       </div>
@@ -367,7 +437,7 @@ export default function HeroSection() {
               className="relative max-w-4xl w-full mx-4 bg-card rounded-2xl overflow-hidden shadow-2xl"
               onClick={e => e.stopPropagation()}
             >
-              <div className="relative aspect-[4/3] w-full">
+              <div className="relative aspect-4/3 w-full">
                 <Image
                   src={selectedPhoto.src || '/placeholder.svg'}
                   alt={selectedPhoto.title}
@@ -402,3 +472,5 @@ export default function HeroSection() {
     </section>
   )
 }
+
+export default HeroSection

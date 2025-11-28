@@ -323,7 +323,7 @@ const BlessingWall = () => {
           >
             <div className="flex items-start justify-between mb-2">
               <div className="flex items-center gap-2">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gold/30 to-purple-500/30 flex items-center justify-center text-lg">
+                <div className="w-10 h-10 rounded-full bg-linear-to-br from-gold/30 to-purple-500/30 flex items-center justify-center text-lg">
                   {blessing.name[0]}
                 </div>
                 <div>
@@ -591,12 +591,12 @@ const MusicQuiz = () => {
         animate={{ opacity: 1, x: 0 }}
       >
         {/* 播放器 */}
-        <div className="mb-8 p-6 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-xl border border-border">
+        <div className="mb-8 p-6 bg-linear-to-br from-purple-500/10 to-pink-500/10 rounded-xl border border-border">
           <div className="flex items-center justify-center mb-4">
             <motion.div
               animate={{ rotate: isPlaying ? 360 : 0 }}
               transition={{ duration: 3, repeat: isPlaying ? Infinity : 0, ease: "linear" }}
-              className="w-24 h-24 rounded-full bg-gradient-to-br from-gold to-purple-500 flex items-center justify-center"
+              className="w-24 h-24 rounded-full bg-linear-to-br from-gold to-purple-500 flex items-center justify-center"
             >
               <Music className="w-12 h-12 text-white" />
             </motion.div>
@@ -728,7 +728,7 @@ const LoveStory = () => {
 
       <div className="relative">
         {/* 时间线 */}
-        <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-gold via-purple-500 to-gold"></div>
+        <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-linear-to-b from-gold via-purple-500 to-gold"></div>
 
         <div className="space-y-8">
           {timeline.map((event, index) => (
@@ -740,12 +740,12 @@ const LoveStory = () => {
               className="relative pl-20"
             >
               {/* 时间点 */}
-              <div className="absolute left-0 w-16 h-16 rounded-full bg-gradient-to-br from-gold to-purple-500 flex items-center justify-center text-2xl shadow-lg">
+              <div className="absolute left-0 w-16 h-16 rounded-full bg-linear-to-br from-gold to-purple-500 flex items-center justify-center text-2xl shadow-lg">
                 {event.emoji}
               </div>
 
               {/* 内容卡片 */}
-              <div className={`p-4 rounded-xl bg-gradient-to-br ${event.color} backdrop-blur-sm border border-border`}>
+              <div className={`p-4 rounded-xl bg-linear-to-br ${event.color} backdrop-blur-sm border border-border`}>
                 <div className="flex items-center justify-between mb-2">
                   <h5 className="text-lg font-bold text-foreground">{event.title}</h5>
                   <span className="text-sm font-medium text-gold">{event.year}</span>
@@ -818,7 +818,7 @@ const LuckyDraw = () => {
             duration: isSpinning ? 3 : 0,
             ease: isSpinning ? "easeOut" : "easeInOut",
           }}
-          className="relative w-64 h-64 rounded-full bg-gradient-to-br from-gold via-purple-500 to-gold p-1 shadow-2xl"
+          className="relative w-64 h-64 rounded-full bg-linear-to-br from-gold via-purple-500 to-gold p-1 shadow-2xl"
         >
           <div className="w-full h-full rounded-full bg-graphite flex items-center justify-center">
             {!result ? (
@@ -859,7 +859,7 @@ const LuckyDraw = () => {
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="p-6 bg-gradient-to-br from-gold/20 to-purple-500/20 rounded-xl border-2 border-gold text-center"
+            className="p-6 bg-linear-to-br from-gold/20 to-purple-500/20 rounded-xl border-2 border-gold text-center"
           >
             <Trophy className="w-16 h-16 text-gold mx-auto mb-4" />
             <h3 className="text-2xl font-bold text-foreground mb-2">
@@ -921,7 +921,7 @@ export default function EntertainmentZone() {
   }
 
   return (
-    <div className="w-full h-screen flex flex-col bg-gradient-to-br from-graphite via-purple-900/20 to-graphite overflow-hidden">
+    <div className="w-full h-screen flex flex-col bg-linear-to-br from-graphite via-purple-900/20 to-graphite overflow-hidden">
       {/* 顶部装饰 */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
@@ -989,7 +989,7 @@ export default function EntertainmentZone() {
                   whileHover={{ scale: 1.05, y: -5 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setSelectedGame(game.id)}
-                  className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${game.bgColor} backdrop-blur-xl border border-border p-6 text-left group`}
+                  className={`relative overflow-hidden rounded-2xl bg-linear-to-br ${game.bgColor} backdrop-blur-xl border border-border p-6 text-left group`}
                 >
                   <div className="absolute top-4 right-4 text-4xl opacity-20 group-hover:opacity-40 transition-opacity">
                     {game.emoji}
@@ -1023,7 +1023,7 @@ export default function EntertainmentZone() {
               animate={{ opacity: 1, scale: 1 }}
               className="max-w-3xl mx-auto bg-card/80 backdrop-blur-xl rounded-2xl border border-border overflow-hidden shadow-2xl"
             >
-              <div className="p-6 bg-gradient-to-r from-gold/20 to-purple-500/20 border-b border-border flex items-center justify-between">
+              <div className="p-6 bg-linear-to-r from-gold/20 to-purple-500/20 border-b border-border flex items-center justify-between">
                 <h3 className="text-2xl font-bold text-foreground">
                   {games.find((g) => g.id === selectedGame)?.emoji}{" "}
                   {games.find((g) => g.id === selectedGame)?.title}

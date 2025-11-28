@@ -63,10 +63,9 @@ export default function ScheduleSection() {
   ]
 
   const handleNavigate = () => {
-    window.open(
-      'https://maps.apple.com/place?address=%E4%B8%AD%E5%9B%BD%E6%B2%B3%E5%8D%97%E7%9C%81%E6%B4%9B%E9%98%B3%E5%B8%82%E5%AD%9F%E6%B4%A5%E5%8C%BA%E9%BA%BB%E5%B1%AF%E9%95%87%E5%9C%9F%E5%9C%B0%E6%89%80%E5%AF%B9%E9%9D%A2&coordinate=34.734682,112.367732&name=%E5%AF%8C%E8%B1%AA%E5%A4%A7%E9%85%92%E5%BA%97(%E9%98%BF%E6%96%B0%E5%A4%A7%E9%81%93%E5%BA%97)',
-      '_blank'
-    )
+    // 使用优化的导航函数（自动检测设备并选择最佳地图）
+    const { openNavigation } = require('@/lib/navigation-utils')
+    openNavigation()
   }
 
   const handleCallClick = (contact: (typeof contacts)[0]) => {
@@ -76,7 +75,9 @@ export default function ScheduleSection() {
 
   const confirmCall = () => {
     if (selectedContact) {
-      window.location.href = `tel:${selectedContact.phone}`
+      // 使用优化的电话拨打函数（桌面端会复制号码并提示）
+      const { makeCall } = require('@/lib/navigation-utils')
+      makeCall(selectedContact.phone)
       console.log('[v0] 呼叫日志:', {
         contact: selectedContact.name,
         phone: selectedContact.phone,
@@ -116,7 +117,7 @@ export default function ScheduleSection() {
             className="relative"
           >
             {/* 竖线 */}
-            <div className="absolute left-6 top-0 bottom-0 w-px bg-gradient-to-b from-gold via-gold/50 to-transparent" />
+            <div className="absolute left-6 top-0 bottom-0 w-px bg-linear-to-b from-gold via-gold/50 to-transparent" />
 
             <div className="space-y-8">
               {scheduleItems.map((item, index) => (
@@ -159,7 +160,7 @@ export default function ScheduleSection() {
                 alt="富豪大酒店地址地图"
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-graphite/60 to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-t from-graphite/60 to-transparent" />
               <div className="absolute bottom-4 left-4 right-4">
                 <div className="flex items-start gap-3 text-cream">
                   <MapPin className="w-5 h-5 text-gold shrink-0 mt-0.5" />
@@ -175,7 +176,7 @@ export default function ScheduleSection() {
             {/* 导航按钮 */}
             <Button
               onClick={handleNavigate}
-              className="w-full bg-gold hover:bg-gold-dark text-graphite font-semibold py-6 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-gold/20"
+              className="w-full min-h-[44px] bg-gold hover:bg-gold-dark text-graphite font-semibold py-6 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-gold/20 focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
               aria-label="一键导航到婚宴地点"
             >
               <Navigation className="w-5 h-5 mr-2" />
@@ -189,7 +190,7 @@ export default function ScheduleSection() {
                   key={contact.phone}
                   onClick={() => handleCallClick(contact)}
                   variant="outline"
-                  className="py-6 rounded-xl border-gold/50 hover:bg-gold/10 hover:border-gold transition-all"
+                  className="min-h-[44px] py-6 rounded-xl border-gold/50 hover:bg-gold/10 hover:border-gold transition-all focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
                   aria-label={`拨打${contact.role}${contact.name}电话`}
                 >
                   <Phone className="w-4 h-4 mr-2 text-gold" />

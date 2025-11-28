@@ -23,6 +23,7 @@ import ContactModalContent from './modal-contents/contact-modal'
 import GuestListModalContent from './modal-contents/guest-list-modal'
 import MusicModalContent from './modal-contents/music-modal'
 import RSVPModalContent from './modal-contents/rsvp-modal'
+import InvitationCard from './invitation-card'
 
 const quickActions = [
   { icon: MapPin, label: '导航', action: 'navigate_to_venue', emoji: '📍' },
@@ -30,9 +31,10 @@ const quickActions = [
   { icon: Music, label: '音乐', action: 'play_music', emoji: '🎵' },
   { icon: Calendar, label: 'RSVP', action: 'rsvp_confirm', emoji: '📝' },
   { icon: Phone, label: '呼叫', action: 'call_contact', emoji: '📞' },
+  { icon: Sparkles, label: '邀请函', action: 'view_invitation', emoji: '💌' },
 ]
 
-type ModalType = 'music' | 'rsvp' | 'guests' | 'contact' | null
+type ModalType = 'music' | 'rsvp' | 'guests' | 'contact' | 'invitation' | null
 
 interface ChatMessage {
   role: 'ai' | 'user'
@@ -77,6 +79,30 @@ export default function FloatingAIButton() {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [chatMessages])
 
+  // 监听打开邀请函事件
+  useEffect(() => {
+    const handleOpenInvitation = () => {
+      setIsOpen(true)
+      setTimeout(() => {
+        setIsAITyping(true)
+        setTimeout(() => {
+          setActiveModal('invitation')
+          setChatMessages(prev => [
+            ...prev,
+            {
+              role: 'ai',
+              content: '💌 邀请函来啦！\n包含婚礼时间、地点、导航和联系方式～\n可以保存或分享给朋友哦！\n点击查看完整邀请函！🎊',
+              timestamp: new Date(),
+            },
+          ])
+          setIsAITyping(false)
+        }, 600)
+      }, 300)
+    }
+    window.addEventListener('openInvitation', handleOpenInvitation)
+    return () => window.removeEventListener('openInvitation', handleOpenInvitation)
+  }, [])
+
   // 打开面板时显示随机开场话术（不重复）
   useEffect(() => {
     if (isOpen && chatMessages.length === 0) {
@@ -111,10 +137,10 @@ export default function FloatingAIButton() {
 
       switch (action) {
         case 'navigate_to_venue':
-          window.open(
-            'https://maps.apple.com/place?address=%E4%B8%AD%E5%9B%BD%E6%B2%B3%E5%8D%97%E7%9C%81%E6%B4%9B%E9%98%B3%E5%B8%82%E5%AD%9F%E6%B4%A5%E5%8C%BA%E9%BA%BB%E5%B1%AF%E9%95%87%E5%9C%9F%E5%9C%B0%E6%89%80%E5%AF%B9%E9%9D%A2&coordinate=34.734682,112.367732&name=%E5%AF%8C%E8%B1%AA%E5%A4%A7%E9%85%92%E5%BA%97(%E9%98%BF%E6%96%B0%E5%A4%A7%E9%81%93%E5%BA%97)',
-            '_blank'
-          )
+          {
+            const { openNavigation } = require('@/lib/navigation-utils')
+            openNavigation()
+          }
           aiResponse =
             '📍 好嘞！导航已为您打开！\n富豪大酒店等着您呢～记得带上好心情！\n预计车程？跟着导航走准没错！一路顺风！🚗✨'
           break
@@ -153,6 +179,12 @@ export default function FloatingAIButton() {
           aiResponse =
             '👥 来宾名册在这里！看看都有谁来～\n说不定能碰到老朋友呢！婚礼就是个大party！🎪'
           setActiveModal('guests')
+          break
+
+        case 'view_invitation':
+          aiResponse =
+            '💌 邀请函来啦！\n包含婚礼时间、地点、导航和联系方式～\n可以保存或分享给朋友哦！\n点击查看完整邀请函！🎊'
+          setActiveModal('invitation')
           break
 
         default:
@@ -291,8 +323,8 @@ export default function FloatingAIButton() {
                   <GripHorizontal className="w-5 h-5 text-muted-foreground" />
                   <button
                     onClick={() => setIsOpen(false)}
-                    className="w-8 h-8 rounded-full hover:bg-muted flex items-center justify-center transition-colors"
-                    aria-label="关闭"
+                    className="w-8 h-8 min-w-[44px] min-h-[44px] rounded-full hover:bg-muted flex items-center justify-center transition-colors focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+                    aria-label="关闭AI助手"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -309,7 +341,8 @@ export default function FloatingAIButton() {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => handleShortcutClick(action.action)}
-                      className="flex flex-col items-center gap-1 p-2 rounded-lg hover:bg-gold/10 transition-colors group"
+                      className="flex flex-col items-center gap-1 p-2 min-h-[44px] rounded-lg hover:bg-gold/10 transition-colors group focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+                      aria-label={action.label}
                     >
                       <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center group-hover:bg-gold/20 transition-colors">
                         <span className="text-sm">{action.emoji}</span>
@@ -392,7 +425,9 @@ export default function FloatingAIButton() {
                 <Button
                   onClick={handleSend}
                   size="icon"
-                  className="bg-gold hover:bg-gold/90 text-graphite"
+                  className="bg-gold hover:bg-gold/90 text-graphite min-w-[44px] min-h-[44px] focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+                  aria-label="发送消息"
+                  disabled={!message.trim()}
                 >
                   <Send className="w-4 h-4" />
                 </Button>
@@ -442,6 +477,20 @@ export default function FloatingAIButton() {
       >
         <ContactModalContent />
       </DraggableModal>
+
+      {activeModal === 'invitation' && (
+        <DraggableModal
+          isOpen={activeModal === 'invitation'}
+          onClose={() => setActiveModal(null)}
+          title="婚礼邀请函"
+          icon={<Sparkles className="w-5 h-5 text-gold" />}
+          width="max-w-3xl"
+        >
+          <div className="p-4">
+            <InvitationCard onClose={() => setActiveModal(null)} />
+          </div>
+        </DraggableModal>
+      )}
     </>
   )
 }

@@ -13,6 +13,7 @@ interface VideoPlayerProps {
   loop?: boolean
   muted?: boolean
   className?: string
+  isMainVideo?: boolean // 标识是否为主视频区域
 }
 
 export default function VideoPlayer({
@@ -24,14 +25,18 @@ export default function VideoPlayer({
   loop = true,
   muted = true,
   className = "",
+  isMainVideo = false,
 }: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
   const [isPlaying, setIsPlaying] = useState(autoPlay)
   const [isMuted, setIsMuted] = useState(muted)
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [progress, setProgress] = useState(0)
   const [showControls, setShowControls] = useState(false)
+  const [userInteracted, setUserInteracted] = useState(false) // 跟踪用户是否手动操作过声音
 
+  // 进度更新和播放状态处理
   useEffect(() => {
     const video = videoRef.current
     if (!video) return
@@ -55,6 +60,59 @@ export default function VideoPlayer({
     }
   }, [])
 
+  // 视口检测和自动播放/声音控制
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const video = videoRef.current
+          if (!video) return
+          
+          if (entry.isIntersecting) {
+            // 进入视口：自动播放
+            if (autoPlay) {
+              video.play().catch(err => {
+                console.log('自动播放失败（可能是浏览器限制）:', err)
+              })
+            }
+            
+            // 主视频区域：取消静音（除非用户手动操作过）
+            if (isMainVideo && !userInteracted) {
+              video.muted = false
+              setIsMuted(false)
+            }
+          } else {
+            // 离开视口：暂停播放（非主视频区域）
+            if (!isMainVideo) {
+              video.pause()
+            }
+            
+            // 主视频区域离开视口：恢复静音（除非用户手动操作过）
+            if (isMainVideo && !userInteracted) {
+              video.muted = true
+              setIsMuted(true)
+            }
+          }
+        })
+      },
+      {
+        threshold: 0.5, // 当视频区域50%可见时触发
+        rootMargin: '-10% 0px -10% 0px' // 增加一些边距，让检测更灵敏
+      }
+    )
+
+    const container = containerRef.current
+    if (container) {
+      observer.observe(container)
+    }
+
+    return () => {
+      if (container) {
+        observer.unobserve(container)
+      }
+    }
+  }, [isMainVideo, userInteracted, autoPlay])
+
   const togglePlay = () => {
     if (videoRef.current) {
       if (isPlaying) {
@@ -69,6 +127,7 @@ export default function VideoPlayer({
     if (videoRef.current) {
       videoRef.current.muted = !isMuted
       setIsMuted(!isMuted)
+      setUserInteracted(true) // 标记用户已手动操作
     }
   }
 
@@ -102,6 +161,7 @@ export default function VideoPlayer({
 
   return (
     <motion.div
+      ref={containerRef}
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
@@ -118,6 +178,7 @@ export default function VideoPlayer({
         loop={loop}
         muted={muted}
         playsInline
+        preload="metadata"
         className="w-full h-full object-contain bg-black"
         onClick={togglePlay}
       />
@@ -155,7 +216,7 @@ export default function VideoPlayer({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="absolute bottom-0 left-0 right-0 z-20 bg-gradient-to-t from-black/80 to-transparent p-4"
+            className="absolute bottom-0 left-0 right-0 z-20 bg-linear-to-t from-black/80 to-transparent p-4"
           >
             {/* 进度条 */}
             <div

@@ -44,7 +44,7 @@ export default function AboutSection() {
                 height={400}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-graphite/80 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-t from-graphite/80 via-transparent to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-6">
                 <span className="text-gold text-sm tracking-wider">THE GROOM</span>
                 <h3 className="text-cream text-2xl md:text-3xl font-bold mt-1">张波</h3>
@@ -54,13 +54,16 @@ export default function AboutSection() {
               <p className="text-muted-foreground leading-relaxed">
                 一个温暖而有担当的人，用真诚和努力书写人生。遇见邓芮，是生命中最美的礼物。
               </p>
-              <a
-                href="tel:18736396660"
+              <button
+                onClick={() => {
+                  const { makeCall } = require('@/lib/navigation-utils')
+                  makeCall('18736396660')
+                }}
                 className="inline-flex items-center gap-2 text-gold hover:text-gold-dark transition-colors text-sm"
               >
                 <Phone className="w-4 h-4" />
                 <span>18736396660</span>
-              </a>
+              </button>
             </div>
           </motion.div>
 
@@ -80,7 +83,7 @@ export default function AboutSection() {
                 height={400}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-graphite/80 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-t from-graphite/80 via-transparent to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-6">
                 <span className="text-gold text-sm tracking-wider">THE BRIDE</span>
                 <h3 className="text-cream text-2xl md:text-3xl font-bold mt-1">邓芮</h3>
@@ -90,13 +93,16 @@ export default function AboutSection() {
               <p className="text-muted-foreground leading-relaxed">
                 温柔善良，笑容明媚。相信爱与美好，期待与张波携手，共同创造幸福的未来。
               </p>
-              <a
-                href="tel:19103895555"
+              <button
+                onClick={() => {
+                  const { makeCall } = require('@/lib/navigation-utils')
+                  makeCall('19103895555')
+                }}
                 className="inline-flex items-center gap-2 text-gold hover:text-gold-dark transition-colors text-sm"
               >
                 <Phone className="w-4 h-4" />
                 <span>19103895555</span>
-              </a>
+              </button>
             </div>
           </motion.div>
         </div>

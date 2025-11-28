@@ -1,3 +1,12 @@
+/**
+ * @file 婚礼音乐播放器组件 - 重构版
+ * @description 全新重构的婚礼现场音乐播放控制组件，优化了路径处理和错误管理
+ * @module components/wedding/music-player
+ * @author YYC
+ * @version 2.0.0
+ * @created 2024-10-15
+ * @updated 2024-10-15
+ */
 'use client'
 
 import {
@@ -9,7 +18,7 @@ import {
   type MusicSegment,
   type Track,
 } from '@/lib/music-playlist'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion, Variants } from 'framer-motion'
 import {
   ChevronUp,
   Heart,
@@ -49,13 +58,14 @@ function setStoredVolume(volume: number): void {
   }
 }
 
-export default function MusicPlayer() {
+function MusicPlayer() {
   const audioRef = useRef<HTMLAudioElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [isExpanded, setIsExpanded] = useState(false)
 
   const [playerState, setPlayerState] = useState<PlayerState>('idle')
   const [syncState, setSyncState] = useState<SyncState>('disconnected')
+  const [error, setError] = useState<string | null>(null)
 
   const [currentSegment, setCurrentSegment] = useState<MusicSegment>('entrance')
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0)
@@ -75,6 +85,15 @@ export default function MusicPlayer() {
   const [localAudioUrl, setLocalAudioUrl] = useState<string | null>(null)
 
   const sessionId = 'wedding_zhangbo_dengrui_2025'
+    
+    // 规范化音频URL处理函数
+    const normalizeAudioUrl = (url: string): string => {
+      // 确保URL以/开头
+      let normalized = url.startsWith('/') ? url : `/${url}`
+      // 对于包含中文字符的路径，确保URL格式正确
+      // 注意：在现代浏览器中，URL会自动处理编码，但我们确保路径格式正确
+      return normalized
+    }
 
   // 加载存储的音量
   useEffect(() => {
@@ -102,9 +121,15 @@ export default function MusicPlayer() {
       handleNext()
     }
 
-    const handleError = () => {
+    const handleError = (error: Event) => {
       setPlayerState('error')
-      console.error('音频加载失败')
+      // 获取更详细的错误信息
+      const audioError = error.target as HTMLAudioElement
+      console.error('音频加载失败:', audioError.error ? audioError.error.code : '未知错误')
+      // 尝试加载下一首歌曲
+      setTimeout(() => {
+        handleNext()
+      }, 1000)
     }
 
     const handleCanPlay = () => {
@@ -154,11 +179,32 @@ export default function MusicPlayer() {
   // 当曲目变化时，自动加载音频文件
   useEffect(() => {
     if (currentTrack?.audioUrl && audioRef.current) {
-      audioRef.current.src = currentTrack.audioUrl
-      audioRef.current.load()
-      setPlayerState('paused')
+        try {
+          setPlayerState('loading')
+          // 使用规范化函数处理URL
+          const audioUrl = normalizeAudioUrl(currentTrack.audioUrl)
+          audioRef.current.src = audioUrl
+          audioRef.current.load()
+          setPlayerState('paused')
+        } catch (error) {
+          console.error('音频加载错误:', error)
+          setPlayerState('error')
+          setError('音频文件加载失败，请检查文件路径或网络连接')
+        }
+        
+        // 自动尝试播放第一首歌（如果是初始化状态）
+        if (playerState === 'idle') {
+          setTimeout(() => {
+            audioRef.current?.play().then(() => {
+              setPlayerState('playing')
+            }).catch(error => {
+              console.log('自动播放失败（可能是浏览器限制）:', error)
+              // 不设置为error状态，保留paused状态让用户手动播放
+            })
+          }, 2000)
+        }
     }
-  }, [currentTrack])
+  }, [currentTrack, playerState])
 
   // 本地音频上传
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -224,12 +270,13 @@ export default function MusicPlayer() {
         audioRef.current.pause()
         setPlayerState('paused')
       } else {
-        // 如果是第一次播放且没有音频源，提示用户上传
-        if (!audioRef.current.src && !localAudioUrl) {
-          alert(
-            '请先上传音乐文件，或者联系管理员添加在线音乐。\n点击右下角【上传音乐】按钮即可！🎵'
-          )
-          return
+        // 尝试播放当前曲目，即使没有本地音频也应该尝试播放内置音乐
+        if (!audioRef.current.src && !localAudioUrl && currentTrack?.audioUrl) {
+            setPlayerState('loading')
+            // 使用规范化函数处理URL
+            const audioUrl = normalizeAudioUrl(currentTrack.audioUrl)
+            audioRef.current.src = audioUrl
+            await audioRef.current.load()
         }
 
         await audioRef.current.play()
@@ -238,7 +285,7 @@ export default function MusicPlayer() {
     } catch (error) {
       console.error('播放失败:', error)
       setPlayerState('error')
-      alert('播放失败，请检查音频文件格式！')
+      alert('播放失败，请检查音频文件格式或路径！')
     }
   }
 
@@ -593,3 +640,5 @@ export default function MusicPlayer() {
     </>
   )
 }
+
+export default MusicPlayer

@@ -126,7 +126,7 @@ export default function ChatRoom() {
   }
 
   return (
-    <div className="w-full min-h-screen flex flex-col bg-gradient-to-br from-graphite via-graphite/95 to-graphite/90">
+    <div className="w-full min-h-screen flex flex-col bg-linear-to-br from-graphite via-graphite/95 to-graphite/90">
       {/* 顶部标题栏 */}
       <div className="flex-shrink-0 bg-card/80 backdrop-blur-xl border-b border-border p-4">
         <div className="max-w-4xl mx-auto flex items-center justify-between">

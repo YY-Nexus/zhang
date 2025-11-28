@@ -3,12 +3,13 @@
 import type React from "react"
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { CheckCircle2, User, Phone, Utensils, Armchair } from "@/components/icons"
+import { CheckCircle2, User, Phone, Utensils, Armchair, QrCode } from "@/components/icons"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import QRCodeCheckin from "../qr-code-checkin"
 
 // 座位区域
 const seatAreas = [
@@ -21,6 +22,9 @@ const seatAreas = [
 export default function RSVPModalContent() {
   const [step, setStep] = useState(1)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isEditing, setIsEditing] = useState(false)
+  const [showQRCode, setShowQRCode] = useState(false)
+  const [errors, setErrors] = useState<Record<string, string>>({})
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -30,12 +34,57 @@ export default function RSVPModalContent() {
     seatArea: "",
     specialRequest: "",
   })
+  const [submittedData, setSubmittedData] = useState<typeof formData | null>(null)
+
+  // 表单验证
+  const validateForm = (currentStep: number): boolean => {
+    const newErrors: Record<string, string> = {}
+    
+    // 步骤1：基本信息验证
+    if (currentStep === 1) {
+      if (!formData.name.trim()) {
+        newErrors.name = "请输入您的姓名"
+      }
+      
+      const phoneRegex = /^1[3-9]\d{9}$/
+      if (!formData.phone.trim()) {
+        newErrors.phone = "请输入您的手机号"
+      } else if (!phoneRegex.test(formData.phone)) {
+        newErrors.phone = "请输入正确的手机号格式"
+      }
+    }
+    
+    // 步骤2：出席人数验证（仅当出席时）
+    if (currentStep === 2 && formData.attending === "yes") {
+      const guests = parseInt(formData.guests)
+      if (isNaN(guests) || guests < 1) {
+        newErrors.guests = "请选择有效的出席人数"
+      }
+    }
+    
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    // 验证当前步骤
+    if (!validateForm(step)) {
+      return
+    }
+    
     // 模拟提交
     await new Promise((resolve) => setTimeout(resolve, 800))
+    
+    // 保存提交的数据，用于后续修改
+    const finalData = {
+      ...formData,
+      specialRequest: formData.specialRequest.trim()
+    }
+    setSubmittedData(finalData)
     setIsSubmitted(true)
+    setIsEditing(false)
   }
 
   if (isSubmitted) {
@@ -51,36 +100,93 @@ export default function RSVPModalContent() {
         </motion.div>
         <h3 className="text-xl font-bold text-foreground mb-2">签到成功！</h3>
         <p className="text-muted-foreground mb-4">
-          感谢您的确认，{formData.name}！
+          感谢您的确认，{submittedData?.name || formData.name}！
           <br />
           我们期待在婚礼当天与您相见。
         </p>
         <div className="bg-gold/10 rounded-lg p-4 text-sm text-left">
           <p>
-            <strong>出席人数：</strong>
-            {formData.guests} 人
+            <strong>出席状态：</strong>
+            {submittedData?.attending === "yes" ? "欣然出席" : "无法出席"}
           </p>
-          <p>
-            <strong>餐饮偏好：</strong>
-            {formData.meal === "normal" ? "正常饮食" : formData.meal}
-          </p>
-          {formData.seatArea && (
-            <p>
-              <strong>座位区域：</strong>
-              {seatAreas.find((s) => s.id === formData.seatArea)?.name}
-            </p>
+          {submittedData?.attending === "yes" && (
+            <>
+              <p>
+                <strong>出席人数：</strong>
+                {submittedData?.guests} 人
+              </p>
+              <p>
+                <strong>餐饮偏好：</strong>
+                {submittedData?.meal === "normal" ? "正常饮食" : submittedData?.meal}
+              </p>
+              {submittedData?.seatArea && (
+                <p>
+                  <strong>座位区域：</strong>
+                  {seatAreas.find((s) => s.id === submittedData.seatArea)?.name}
+                </p>
+              )}
+            </>
           )}
         </div>
-        <Button
-          onClick={() => {
-            setIsSubmitted(false)
-            setStep(1)
-          }}
-          variant="outline"
-          className="mt-4"
-        >
-          修改信息
-        </Button>
+        <div className="flex flex-col gap-2 mt-4">
+          {submittedData?.attending === "yes" && (
+            <Button
+              onClick={() => setShowQRCode(!showQRCode)}
+              className="bg-gold text-graphite hover:bg-gold/90"
+            >
+              <QrCode className="w-4 h-4 mr-2" />
+              {showQRCode ? "隐藏二维码" : "查看签到二维码"}
+            </Button>
+          )}
+          
+          {showQRCode && submittedData && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="mt-4"
+            >
+              <QRCodeCheckin guestInfo={submittedData} />
+            </motion.div>
+          )}
+          
+          <div className="flex gap-2 mt-2">
+            <Button
+              onClick={() => {
+                setIsEditing(true)
+                setIsSubmitted(false)
+                setShowQRCode(false)
+                if (submittedData) {
+                  setFormData(submittedData)
+                }
+              }}
+              variant="outline"
+              className="flex-1"
+            >
+              修改信息
+            </Button>
+            <Button
+              onClick={() => {
+                setIsSubmitted(false)
+                setStep(1)
+                setShowQRCode(false)
+                setFormData({
+                  name: "",
+                  phone: "",
+                  attending: "yes",
+                  guests: "1",
+                  meal: "normal",
+                  seatArea: "",
+                  specialRequest: "",
+                })
+                setSubmittedData(null)
+              }}
+              className="flex-1 bg-gold text-graphite hover:bg-gold/90"
+            >
+              完成
+            </Button>
+          </div>
+        </div>
       </motion.div>
     )
   }
@@ -121,11 +227,17 @@ export default function RSVPModalContent() {
               <Label>您的姓名 *</Label>
               <Input
                 value={formData.name}
-                onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
+                onChange={(e) => {
+                  setFormData((prev) => ({ ...prev, name: e.target.value }))
+                  if (errors.name) {
+                    setErrors((prev) => { const newErrors = { ...prev }; delete newErrors.name; return newErrors })
+                  }
+                }}
                 placeholder="请输入您的姓名"
                 required
-                className="mt-1"
+                className={`mt-1 ${errors.name ? 'border-red-500 focus:ring-red-500' : ''}`}
               />
+              {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name}</p>}
             </div>
             <div>
               <Label>联系电话 *</Label>
@@ -134,12 +246,18 @@ export default function RSVPModalContent() {
                 <Input
                   type="tel"
                   value={formData.phone}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, phone: e.target.value }))}
+                  onChange={(e) => {
+                    setFormData((prev) => ({ ...prev, phone: e.target.value }))
+                    if (errors.phone) {
+                      setErrors((prev) => { const newErrors = { ...prev }; delete newErrors.phone; return newErrors })
+                    }
+                  }}
                   placeholder="请输入手机号"
-                  className="pl-10"
+                  className={`pl-10 ${errors.phone ? 'border-red-500 focus:ring-red-500' : ''}`}
                   required
                 />
               </div>
+              {errors.phone && <p className="text-xs text-red-500 mt-1">{errors.phone}</p>}
             </div>
             <div>
               <Label>是否出席 *</Label>
@@ -160,7 +278,11 @@ export default function RSVPModalContent() {
             </div>
             <Button
               type="button"
-              onClick={() => setStep(2)}
+              onClick={() => {
+                if (validateForm(1)) {
+                  setStep(2)
+                }
+              }}
               disabled={!formData.name || !formData.phone}
               className="w-full bg-gold text-graphite hover:bg-gold/90"
             >

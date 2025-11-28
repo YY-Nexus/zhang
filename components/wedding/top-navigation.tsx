@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Menu, X, Heart, Phone } from "@/components/icons"
 import Image from "next/image"
+import { Heart, Phone, Menu, X, Share2 } from "@/components/icons"
+import ShareWebsite from "./share-website"
 
 interface TopNavigationProps {
   pages: Array<{
@@ -18,9 +19,18 @@ interface TopNavigationProps {
 export default function TopNavigation({ pages, currentPage, onNavigate }: TopNavigationProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const [isShareOpen, setIsShareOpen] = useState(false)
 
-  // 监听滚动，添加背景
+  // 监听滚动，添加背景（仅在非分页导航模式下有效）
   useEffect(() => {
+    // 检查是否在分页导航模式下（通过检查是否有固定高度的容器）
+    const isPaginatedMode = document.querySelector('.h-screen.overflow-hidden')
+    if (isPaginatedMode) {
+      // 分页模式下，始终显示背景
+      setIsScrolled(true)
+      return
+    }
+    
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20)
     }
@@ -54,9 +64,12 @@ export default function TopNavigation({ pages, currentPage, onNavigate }: TopNav
               whileHover={{ scale: 1.05 }}
               className="flex items-center gap-3 cursor-pointer"
               onClick={() => handleNavigate(0)}
+              role="button"
+              tabIndex={0}
+              aria-label="返回首页"
             >
-              <div className="relative w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-gold to-purple-500 flex items-center justify-center shadow-lg">
-                <Heart className="w-6 h-6 md:w-7 md:h-7 text-white" />
+              <div className="relative w-10 h-10 md:w-12 md:h-12 rounded-full bg-linear-to-br from-gold to-purple-500 flex items-center justify-center shadow-lg">
+                <Heart className="w-5 h-5 md:w-6 md:h-6 text-graphite fill-graphite" />
               </div>
               <div className="hidden sm:block">
                 <h1 className="text-xl md:text-2xl font-bold text-foreground">
@@ -74,11 +87,13 @@ export default function TopNavigation({ pages, currentPage, onNavigate }: TopNav
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => handleNavigate(index)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                  className={`px-4 py-2 min-h-[44px] rounded-lg text-sm font-medium transition-all focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 ${
                     currentPage === index
                       ? "bg-gold text-graphite shadow-lg"
-                      : "text-foreground hover:bg-gold/10 hover:text-gold"
+                      : "bg-gold/20 text-gold hover:bg-gold/30"
                   }`}
+                  aria-label={`前往${page.title}`}
+                  aria-current={currentPage === index ? "page" : undefined}
                 >
                   <span className="mr-2">{page.emoji}</span>
                   {page.title}
@@ -86,28 +101,45 @@ export default function TopNavigation({ pages, currentPage, onNavigate }: TopNav
               ))}
             </div>
 
-            {/* 联系按钮（桌面端） */}
-            <motion.a
-              href="tel:13000000000"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="hidden lg:flex items-center gap-2 px-4 py-2 bg-gold text-graphite rounded-lg font-medium hover:bg-gold/90 transition-colors shadow-lg"
-            >
-              <Phone className="w-4 h-4" />
-              联系新人
-            </motion.a>
+            {/* 分享和联系按钮（桌面端） */}
+            <div className="hidden lg:flex items-center gap-2">
+              <motion.button
+                onClick={() => setIsShareOpen(true)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex items-center gap-2 px-4 py-2 bg-gold/20 text-gold rounded-lg font-medium hover:bg-gold/30 transition-colors shadow-lg min-h-[44px] focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+                aria-label="分享网站"
+              >
+                <Share2 className="w-4 h-4" />
+                分享
+              </motion.button>
+              <motion.button
+                onClick={() => {
+                  const { makeCall } = require('@/lib/navigation-utils')
+                  makeCall('18736396660')
+                }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex items-center gap-2 px-4 py-2 bg-gold text-graphite rounded-lg font-medium hover:bg-gold/90 transition-colors shadow-lg min-h-[44px] focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+                aria-label="联系新人"
+              >
+                <Phone className="w-4 h-4" />
+                联系新人
+              </motion.button>
+            </div>
 
             {/* 移动端菜单按钮 */}
             <motion.button
               whileTap={{ scale: 0.9 }}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="lg:hidden w-10 h-10 flex items-center justify-center rounded-lg bg-card/80 backdrop-blur-sm border border-border hover:border-gold transition-colors"
-              aria-label="菜单"
+              className="lg:hidden w-10 h-10 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg bg-card/80 backdrop-blur-sm border border-border hover:border-gold transition-colors focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+              aria-label={isMenuOpen ? "关闭菜单" : "打开菜单"}
+              aria-expanded={isMenuOpen}
             >
               {isMenuOpen ? (
-                <X className="w-6 h-6 text-foreground" />
+                <X className="w-5 h-5" />
               ) : (
-                <Menu className="w-6 h-6 text-foreground" />
+                <Menu className="w-5 h-5" />
               )}
             </motion.button>
           </div>
@@ -142,11 +174,13 @@ export default function TopNavigation({ pages, currentPage, onNavigate }: TopNav
                       key={page.id}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => handleNavigate(index)}
-                      className={`w-full text-left px-4 py-3 rounded-xl text-base font-medium transition-all ${
+                      className={`w-full text-left px-4 py-3 min-h-[44px] rounded-xl text-base font-medium transition-all focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 ${
                         currentPage === index
                           ? "bg-gold text-graphite shadow-md"
                           : "text-foreground hover:bg-gold/10 hover:text-gold"
                       }`}
+                      aria-label={`前往${page.title}`}
+                      aria-current={currentPage === index ? "page" : undefined}
                     >
                       <span className="mr-3 text-xl">{page.emoji}</span>
                       {page.title}
@@ -154,22 +188,44 @@ export default function TopNavigation({ pages, currentPage, onNavigate }: TopNav
                   ))}
                 </div>
 
-                {/* 移动端联系按钮 */}
-                <div className="p-4 border-t border-border">
-                  <motion.a
-                    href="tel:13000000000"
+                {/* 移动端操作按钮 */}
+                <div className="p-4 border-t border-border space-y-2">
+                  <motion.button
+                    onClick={() => {
+                      setIsShareOpen(true)
+                      setIsMenuOpen(false)
+                    }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gold text-graphite rounded-xl font-medium hover:bg-gold/90 transition-colors"
+                    className="w-full flex items-center justify-center gap-2 px-4 py-3 min-h-[44px] bg-gold/20 text-gold rounded-xl font-medium hover:bg-gold/30 transition-colors focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+                    aria-label="分享网站"
                   >
-                    <Phone className="w-5 h-5" />
+                    <Share2 className="w-4 h-4" />
+                    分享网站
+                  </motion.button>
+                  <motion.button
+                    onClick={() => {
+                      const { makeCall } = require('@/lib/navigation-utils')
+                      makeCall('18736396660')
+                    }}
+                    whileTap={{ scale: 0.98 }}
+                    className="w-full flex items-center justify-center gap-2 px-4 py-3 min-h-[44px] bg-gold text-graphite rounded-xl font-medium hover:bg-gold/90 transition-colors focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+                    aria-label="联系新人"
+                  >
+                    <Phone className="w-4 h-4" />
                     联系新人
-                  </motion.a>
+                  </motion.button>
                 </div>
               </div>
             </motion.div>
           </>
         )}
       </AnimatePresence>
+      
+      {/* 防止页面内容与导航栏重叠的占位元素 */}
+      <div className="h-16 md:h-20" />
+      
+      {/* 分享网站弹窗 */}
+      <ShareWebsite isOpen={isShareOpen} onClose={() => setIsShareOpen(false)} />
     </>
   )
 }
