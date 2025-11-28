@@ -12,6 +12,21 @@ export const metadata: Metadata = {
     description: "诚挚邀请您参加我们的婚礼，分享幸福与喜悦！",
     type: "website",
     url: "https://zhang.0379.love",
+    siteName: "张波 & 邓芮 婚礼邀请函",
+    images: [
+      {
+        url: "https://zhang.0379.love/wedding/Wedding-document.jpg",
+        width: 1200,
+        height: 630,
+        alt: "张波 & 邓芮 婚礼合影",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "张波 & 邓芮 婚礼邀请函",
+    description: "诚挚邀请您参加我们的婚礼，分享幸福与喜悦！",
+    images: ["https://zhang.0379.love/wedding/Wedding-document.jpg"],
   },
   icons: {
     icon: '/yyc3-pwa-icon.png',
@@ -61,7 +76,11 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="font-sans antialiased touch-manipulation">{children}</body>
+      <body className="font-sans antialiased touch-manipulation">
+        <main id="main-content" className="min-h-screen">
+          {children}
+        </main>
+      </body>
     </html>
   )
 }

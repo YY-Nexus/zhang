@@ -32,7 +32,7 @@ export const weddingPlaylist: Track[] = [
     duration: 260,
     priority: 10,
     votes: 0,
-    audioUrl: '/music/dining/邓丽君 - 月亮代表我的心.mp3',
+    audioUrl: '/MP4/dining/邓丽君 - 月亮代表我的心.mp3',
   },
   {
     id: 'dining-002',
@@ -43,7 +43,7 @@ export const weddingPlaylist: Track[] = [
     duration: 245,
     priority: 9,
     votes: 0,
-    audioUrl: '/music/dining/邓丽君 - 甜蜜蜜.mp3',
+    audioUrl: '/MP4/dining/邓丽君 - 甜蜜蜜.mp3',
   },
   {
     id: 'dining-003',
@@ -54,7 +54,7 @@ export const weddingPlaylist: Track[] = [
     duration: 275,
     priority: 8,
     votes: 0,
-    audioUrl: '/music/dining/邓丽君 - 我只在乎你.mp3',
+    audioUrl: '/MP4/dining/邓丽君 - 我只在乎你.mp3',
   },
   {
     id: 'dining-004',
@@ -65,7 +65,7 @@ export const weddingPlaylist: Track[] = [
     duration: 218,
     priority: 7,
     votes: 0,
-    audioUrl: '/music/dining/沫言 - 忘了曾经忘了累.mp3',
+    audioUrl: '/MP4/dining/沫言 - 忘了曾经忘了累.mp3',
   },
   {
     id: 'dining-005',
@@ -76,7 +76,7 @@ export const weddingPlaylist: Track[] = [
     duration: 204,
     priority: 6,
     votes: 0,
-    audioUrl: '/music/dining/沫言 - 浮生物语.mp3',
+    audioUrl: '/MP4/dining/沫言 - 浮生物语.mp3',
   },
   {
     id: 'dining-006',
@@ -87,7 +87,7 @@ export const weddingPlaylist: Track[] = [
     duration: 225,
     priority: 5,
     votes: 0,
-    audioUrl: '/music/dining/周杰伦 - 告白气球.mp3',
+    audioUrl: '/MP4/dining/周杰伦 - 告白气球.mp3',
   },
   {
     id: 'dining-007',
@@ -98,7 +98,7 @@ export const weddingPlaylist: Track[] = [
     duration: 250,
     priority: 4,
     votes: 0,
-    audioUrl: '/music/dining/田馥甄 - 小幸运.mp3',
+    audioUrl: '/MP4/dining/田馥甄 - 小幸运.mp3',
   },
 
   // ============================================
@@ -113,7 +113,7 @@ export const weddingPlaylist: Track[] = [
     duration: 295,
     priority: 10,
     votes: 0,
-    audioUrl: '/music/entrance/沫言 - 给你们.mp3', // 注意：文件名中的中文字符需要确保与实际文件系统匹配
+    audioUrl: '/MP4/entrance/沫言 - 给你们.mp3', // 注意：文件名中的中文字符需要确保与实际文件系统匹配
   },
   {
     id: 'entrance-002',
@@ -124,7 +124,7 @@ export const weddingPlaylist: Track[] = [
     duration: 232,
     priority: 9,
     votes: 0,
-    audioUrl: '/music/entrance/沫语 - 幸福的脸.mp3', // 注意：文件名中的中文字符需要确保与实际文件系统匹配
+    audioUrl: '/MP4/entrance/沫语 - 幸福的脸.mp3', // 注意：文件名中的中文字符需要确保与实际文件系统匹配
   },
   {
     id: 'entrance-003',
@@ -135,7 +135,7 @@ export const weddingPlaylist: Track[] = [
     duration: 276,
     priority: 8,
     votes: 0,
-    audioUrl: '/music/entrance/沫言 - 只有你.mp3', // 注意：文件名中的中文字符需要确保与实际文件系统匹配
+    audioUrl: '/MP4/entrance/沫言 - 只有你.mp3', // 注意：文件名中的中文字符需要确保与实际文件系统匹配
   },
   {
     id: 'entrance-004',
@@ -146,7 +146,7 @@ export const weddingPlaylist: Track[] = [
     duration: 268,
     priority: 7,
     votes: 0,
-    audioUrl: '/music/entrance/沫言 - 今天你要嫁给我.mp3', // 注意：文件名中的中文字符需要确保与实际文件系统匹配
+    audioUrl: '/MP4/entrance/沫言 - 今天你要嫁给我.mp3', // 注意：文件名中的中文字符需要确保与实际文件系统匹配
   },
   {
     id: 'entrance-005',
@@ -157,7 +157,7 @@ export const weddingPlaylist: Track[] = [
     duration: 248,
     priority: 6,
     votes: 0,
-    audioUrl: '/music/entrance/沫语 - 爱你一万年.mp3', // 注意：文件名中的中文字符需要确保与实际文件系统匹配
+    audioUrl: '/MP4/entrance/沫语 - 爱你一万年.mp3', // 注意：文件名中的中文字符需要确保与实际文件系统匹配
   },
 
   // ============================================
@@ -172,7 +172,7 @@ export const weddingPlaylist: Track[] = [
     duration: 210,
     priority: 10,
     votes: 0,
-    audioUrl: '/music/farewell/李谷一 - 难忘今宵.mp3',
+    audioUrl: '/MP4/farewell/李谷一 - 难忘今宵.mp3',
   },
   {
     id: 'farewell-002',
@@ -183,7 +183,7 @@ export const weddingPlaylist: Track[] = [
     duration: 250,
     priority: 9,
     votes: 0,
-    audioUrl: '/music/farewell/周华健 - 朋友.mp3',
+    audioUrl: '/MP4/farewell/周华健 - 朋友.mp3',
   },
   {
     id: 'farewell-003',
@@ -194,7 +194,7 @@ export const weddingPlaylist: Track[] = [
     duration: 270,
     priority: 8,
     votes: 0,
-    audioUrl: '/music/farewell/华语群星 - 明天会更好.mp3', // 注意：实际文件名是"华语群星"，不是"群星"
+    audioUrl: '/MP4/farewell/华语群星 - 明天会更好.mp3', // 注意：实际文件名是"华语群星"，不是"群星"
   },
   {
     id: 'farewell-004',
@@ -205,7 +205,7 @@ export const weddingPlaylist: Track[] = [
     duration: 280,
     priority: 7,
     votes: 0,
-    audioUrl: '/music/farewell/张学友 - 祝福.mp3',
+    audioUrl: '/MP4/farewell/张学友 - 祝福.mp3',
   },
   {
     id: 'farewell-005',
@@ -216,7 +216,7 @@ export const weddingPlaylist: Track[] = [
     duration: 260,
     priority: 6,
     votes: 0,
-    audioUrl: '/music/farewell/沫言 - 昨日的酒.mp3',
+    audioUrl: '/MP4/farewell/沫言 - 昨日的酒.mp3',
   },
 
   // ============================================
@@ -231,7 +231,7 @@ export const weddingPlaylist: Track[] = [
     duration: 240,
     priority: 10,
     votes: 0,
-    audioUrl: '/music/tea/筷子兄弟 - 父亲.mp3',
+    audioUrl: '/MP4/tea/筷子兄弟 - 父亲.mp3',
   },
   {
     id: 'tea-002',
@@ -242,7 +242,7 @@ export const weddingPlaylist: Track[] = [
     duration: 260,
     priority: 9,
     votes: 0,
-    audioUrl: '/music/tea/欧阳菲菲 - 感恩的心.mp3',
+    audioUrl: '/MP4/tea/欧阳菲菲 - 感恩的心.mp3',
   },
   {
     id: 'tea-003',
@@ -253,7 +253,7 @@ export const weddingPlaylist: Track[] = [
     duration: 255,
     priority: 8,
     votes: 0,
-    audioUrl: '/music/tea/阎维文 - 母亲.mp3',
+    audioUrl: '/MP4/tea/阎维文 - 母亲.mp3',
   },
   {
     id: 'tea-004',
@@ -264,7 +264,7 @@ export const weddingPlaylist: Track[] = [
     duration: 245,
     priority: 7,
     votes: 0,
-    audioUrl: '/music/tea/周杰伦 - 听妈妈的话.mp3',
+    audioUrl: '/MP4/tea/周杰伦 - 听妈妈的话.mp3',
   },
   {
     id: 'tea-005',
@@ -275,7 +275,7 @@ export const weddingPlaylist: Track[] = [
     duration: 230,
     priority: 6,
     votes: 0,
-    audioUrl: '/music/tea/沫语 - 时间都去哪了.mp3',
+    audioUrl: '/MP4/tea/沫语 - 时间都去哪了.mp3',
   }
 ]
 
