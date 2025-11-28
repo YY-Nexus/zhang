@@ -1,45 +1,49 @@
 'use client'
 
 import * as React from 'react'
-import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
-import { CircleIcon } from 'lucide-react'
 
-import { cn } from '@/lib/utils'
+// Minimal, robust RadioGroup used as a temporary safe fallback during build
+// investigation. Avoids using Context or other APIs that could be affected
+// during server-side prerendering in this repo's build environment.
 
-function RadioGroup({
+type RadioGroupProps = React.HTMLAttributes<HTMLDivElement> & {
+  value?: string
+  defaultValue?: string
+  onValueChange?: (v: string) => void
+}
+
+export function RadioGroup({
+  children,
   className,
-  ...props
-}: React.ComponentProps<typeof RadioGroupPrimitive.Root>) {
+  value,
+  onValueChange,
+  ...rest
+}: RadioGroupProps) {
   return (
-    <RadioGroupPrimitive.Root
-      data-slot="radio-group"
-      className={cn('grid gap-3', className)}
-      {...props}
-    />
+    <div data-slot="radio-group" className={className} {...rest}>
+      {children}
+    </div>
   )
 }
 
-function RadioGroupItem({
+type RadioGroupItemProps = React.LabelHTMLAttributes<HTMLLabelElement> & {
+  value?: string
+  checked?: boolean
+}
+
+export function RadioGroupItem({
+  value,
   className,
-  ...props
-}: React.ComponentProps<typeof RadioGroupPrimitive.Item>) {
+  children,
+  checked,
+  ...rest
+}: RadioGroupItemProps) {
   return (
-    <RadioGroupPrimitive.Item
-      data-slot="radio-group-item"
-      className={cn(
-        'border-input text-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 aspect-square size-4 shrink-0 rounded-full border shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50',
-        className,
-      )}
-      {...props}
-    >
-      <RadioGroupPrimitive.Indicator
-        data-slot="radio-group-indicator"
-        className="relative flex items-center justify-center"
-      >
-        <CircleIcon className="fill-primary absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2" />
-      </RadioGroupPrimitive.Indicator>
-    </RadioGroupPrimitive.Item>
+    <label className={className} {...rest}>
+      <input type="radio" value={value} defaultChecked={checked} />
+      <span>{children}</span>
+    </label>
   )
 }
 
-export { RadioGroup, RadioGroupItem }
+export default RadioGroup

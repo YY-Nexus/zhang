@@ -2,7 +2,6 @@
 
 import { Suspense } from 'react'
 import HeroSection from '../../components/wedding/hero-section'
-import FloatingAIButton from '../../components/wedding/floating-ai-button'
 import MusicPlayer from '../../components/wedding/music-player-final'
 import PWAInstallPrompt from '../../components/pwa-install-prompt'
 import Navbar from '../../components/wedding/navbar'

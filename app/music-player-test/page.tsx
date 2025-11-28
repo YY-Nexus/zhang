@@ -7,7 +7,7 @@
  */
 
 import { Metadata } from 'next'
-import WeddingMusicPlayer from '@/components/wedding/music-player-new'
+import WeddingMusicPlayerClient from '@/components/client/wedding-music-player-client'
 
 /**
  * 页面元数据配置
@@ -29,7 +29,7 @@ export default function MusicPlayerTestPage() {
           这是新音乐播放器组件的测试页面。您可以测试播放控制、音量调节、曲目切换和文件上传等功能。
         </p>
       </header>
-      
+
       <main className="max-w-3xl mx-auto bg-card rounded-xl shadow-md p-6 border border-border">
         <div className="mb-8">
           <h2 className="text-xl font-semibold text-foreground mb-4">功能测试</h2>
@@ -46,14 +46,14 @@ export default function MusicPlayerTestPage() {
                 <li>检查各种错误状态的处理</li>
               </ul>
             </div>
-            
+
             <div className="p-4 bg-gold/10 rounded-lg text-sm">
               <h3 className="font-medium text-foreground mb-2">路径处理测试</h3>
               <p className="text-muted-foreground">
                 新播放器内置了改进的URL规范化处理，能够正确处理相对路径、中文字符路径和特殊字符。
               </p>
             </div>
-            
+
             <div className="p-4 bg-blue-50 rounded-lg text-sm">
               <h3 className="font-medium text-foreground mb-2">错误处理测试</h3>
               <p className="text-muted-foreground">
@@ -62,18 +62,18 @@ export default function MusicPlayerTestPage() {
             </div>
           </div>
         </div>
-        
+
         <div className="border-t border-border pt-6">
           <h2 className="text-xl font-semibold text-foreground mb-4">播放器实例</h2>
           <p className="text-sm text-muted-foreground mb-4">
             播放器会显示在页面右下角。点击音乐图标展开控制界面。
           </p>
-          
-          {/* 放置新的音乐播放器组件 */}
-          <WeddingMusicPlayer />
+
+          {/* 放置新的音乐播放器组件（客户端包装器） */}
+          <WeddingMusicPlayerClient />
         </div>
       </main>
-      
+
       <footer className="max-w-3xl mx-auto mt-12 pt-6 border-t border-border text-sm text-muted-foreground text-center">
         <p>音乐播放器测试页面 &copy; {new Date().getFullYear()}</p>
       </footer>

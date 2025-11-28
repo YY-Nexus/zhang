@@ -1,12 +1,15 @@
-"use client"
+'use client'
 
-import { Suspense } from "react"
-import InteractionSection from "@/components/wedding/interaction-section"
+import { Suspense } from 'react'
 import dynamic from 'next/dynamic'
-const FloatingAIButton = dynamic(() => import('@/components/wedding/floating-ai-button'), { ssr: false })
-import MusicPlayer from "@/components/wedding/music-player-new"
-import PWAInstallPrompt from "@/components/pwa-install-prompt"
-import Navbar from "@/components/wedding/navbar"
+import InteractionSection from '@/components/client/interaction-section-client'
+import Navbar from '@/components/client/navbar-client'
+
+const FloatingAIButton = dynamic(() => import('@/components/wedding/floating-ai-button'), {
+  ssr: false,
+})
+const MusicPlayer = dynamic(() => import('@/components/wedding/music-player-new'), { ssr: false })
+const PWAInstallPrompt = dynamic(() => import('@/components/pwa-install-prompt'), { ssr: false })
 
 /**
  * @file 互动留言页面
@@ -19,22 +22,26 @@ export default function InteractionPage() {
     <div className="relative w-full min-h-screen bg-gradient-to-b from-graphite via-graphite/95 to-graphite/90">
       {/* 顶部导航栏 */}
       <Navbar currentPage="interaction" />
-      
+
       {/* 主要内容 - 页面主体 */}
       <main className="pt-20 pb-24">
         <div className="container mx-auto px-4 py-12">
-          <Suspense fallback={<div className="min-h-[80vh] flex items-center justify-center">加载中...</div>}>
+          <Suspense
+            fallback={
+              <div className="min-h-[80vh] flex items-center justify-center">加载中...</div>
+            }
+          >
             <InteractionSection />
           </Suspense>
         </div>
       </main>
-      
+
       {/* 浮动AI按钮 - 全局常驻 */}
       <FloatingAIButton />
-      
+
       {/* 音乐播放器 - 全局常驻 */}
       <MusicPlayer />
-      
+
       {/* PWA安装提示 - 智能显示 */}
       <PWAInstallPrompt />
     </div>
