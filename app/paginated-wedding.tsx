@@ -10,7 +10,8 @@ import GallerySection from "@/components/wedding/gallery-section"
 import InteractionSection from "@/components/wedding/interaction-section"
 import EntertainmentZone from "@/components/wedding/entertainment-zone"
 import ChatRoom from "@/components/wedding/chat-room"
-import FloatingAIButton from "@/components/wedding/floating-ai-button"
+import dynamic from 'next/dynamic'
+const FloatingAIButton = dynamic(() => import('@/components/wedding/floating-ai-button'), { ssr: false })
 import MusicPlayer from "@/components/wedding/music-player-new"
 import GuestSignIn from "@/components/wedding/guest-sign-in"
 import Footer from "@/components/wedding/footer"

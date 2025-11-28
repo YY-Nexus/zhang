@@ -6,6 +6,7 @@ import FloatingAIButton from '../../components/wedding/floating-ai-button'
 import MusicPlayer from '../../components/wedding/music-player-final'
 import PWAInstallPrompt from '../../components/pwa-install-prompt'
 import Navbar from '../../components/wedding/navbar'
+import BigModelDemoClient from '../../components/client/bigmodel-demo-client'
 
 /**
  * @file 首页路由
@@ -29,6 +30,11 @@ export default function HomePage() {
           >
             <HeroSection />
           </Suspense>
+
+          {/* BigModel AI Demo */}
+          <div className="mt-12">
+            <BigModelDemoClient />
+          </div>
         </div>
       </main>
 

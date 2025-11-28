@@ -36,7 +36,7 @@ for (const f of allFiles) {
 const imports = {}
 const clientByBasename = {}
 for (const cf of clientFiles) {
-  clientByBasename[path.basename(cf).replace(/\.(js|jsx|ts|tsx)$/,'')] = cf
+  clientByBasename[path.basename(cf).replace(/\.(js|jsx|ts|tsx)$/, '')] = cf
 }
 
 function resolveImport(fromFile, importPath) {
@@ -70,5 +70,8 @@ for (const f of allFiles) {
   }
 }
 
-fs.writeFileSync(path.join(root, 'scripts', 'client_imports_report.json'), JSON.stringify({clientFiles: Array.from(clientFiles), imports}, null, 2))
+fs.writeFileSync(
+  path.join(root, 'scripts', 'client_imports_report.json'),
+  JSON.stringify({ clientFiles: Array.from(clientFiles), imports }, null, 2)
+)
 console.log('Wrote scripts/client_imports_report.json')

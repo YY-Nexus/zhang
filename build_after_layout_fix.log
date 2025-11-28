@@ -1,16 +1,3 @@
-   ▲ Next.js 16.0.3 (Turbopack)
-   - Experiments (use with caution):
-     · optimizePackageImports
-     ⨯ prerenderEarlyExit (disabled by `--debug-prerender`)
-     ✓ serverSourceMaps (enabled by `--debug-prerender`)
-     ⨯ turbopackMinify (disabled by `--debug-prerender`)
-
-   Creating an optimized production build ...
- ✓ Compiled successfully in 1912.4ms
-   Running TypeScript ...
-   Collecting page data using 15 workers ...
-   Generating static pages using 15 workers (0/1) ...
-
  ⚠ You are using a non-standard "NODE_ENV" value in your environment. This creates inconsistencies in the project and is strongly advised against. Read more: https://nextjs.org/docs/messages/non-standard-node-env
 [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
  ⚠ Prerendering is running in debug mode. Note: This may affect performance and should not be used for production.
@@ -21,6 +8,18 @@
  Detected additional lockfiles: 
    * /Users/yanyu/Documents/张波/zhang/package-lock.json
 
+   ▲ Next.js 16.0.3 (Turbopack)
+   - Experiments (use with caution):
+     · optimizePackageImports
+     ⨯ prerenderEarlyExit (disabled by `--debug-prerender`)
+     ✓ serverSourceMaps (enabled by `--debug-prerender`)
+     ⨯ turbopackMinify (disabled by `--debug-prerender`)
+
+   Creating an optimized production build ...
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+ ✓ Compiled successfully in 2.1s
+   Running TypeScript ...
+   Collecting page data using 15 workers ...
 [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
 [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
 [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
@@ -33,7 +32,7 @@
 [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
 [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
 [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
-[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+   Generating static pages using 15 workers (0/1) ...
 [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
 Each child in a list should have a unique "key" prop.
 

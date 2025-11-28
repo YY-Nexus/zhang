@@ -1,8 +1,9 @@
 "use client"
 
 import { Suspense } from "react"
+import dynamic from 'next/dynamic'
 import EntertainmentSection from "../../components/wedding/entertainment-section"
-import FloatingAIButton from "../../components/wedding/floating-ai-button"
+const FloatingAIButton = dynamic(() => import('../../components/wedding/floating-ai-button'), { ssr: false })
 import MusicPlayer from "../../components/wedding/music-player-new"
 import PWAInstallPrompt from "../../components/pwa-install-prompt"
 import Navbar from "../../components/wedding/navbar"

@@ -2,7 +2,8 @@
 
 import { Suspense } from "react"
 import ScheduleSection from "@/components/wedding/schedule-section"
-import FloatingAIButton from "@/components/wedding/floating-ai-button"
+import dynamic from 'next/dynamic'
+const FloatingAIButton = dynamic(() => import('@/components/wedding/floating-ai-button'), { ssr: false })
 import MusicPlayer from "@/components/wedding/music-player-new"
 import PWAInstallPrompt from "@/components/pwa-install-prompt"
 import Navbar from "@/components/wedding/navbar"

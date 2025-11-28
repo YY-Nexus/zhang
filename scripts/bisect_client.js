@@ -40,8 +40,11 @@ function restoreAll() {
     if (!f.endsWith('.bak')) continue
     const bakPath = path.join(bakDir, f)
     // try to map bak filename back to clientFiles by basename
-    const base = f.replace(/\.bak$/, '').split('_').slice(-1)[0]
-    const cand = clientFiles.find(p => path.basename(p).replace(/\.(js|jsx|ts|tsx)$/,'') === base)
+    const base = f
+      .replace(/\.bak$/, '')
+      .split('_')
+      .slice(-1)[0]
+    const cand = clientFiles.find(p => path.basename(p).replace(/\.(js|jsx|ts|tsx)$/, '') === base)
     if (cand) fs.copyFileSync(bakPath, cand)
   }
 }
@@ -89,22 +92,30 @@ function writeStub(file) {
 function runBuild() {
   try {
     execSync('rm -rf .next', { cwd: root })
-      const cmd = 'NODE_OPTIONS="--enable-source-maps --trace-warnings" npx next build --debug-prerender'
-      const child = execSync(cmd, { cwd: root, stdio: 'pipe', maxBuffer: 1024 * 1024 * 50 })
-      const out = child.toString()
-      fs.writeFileSync(path.join(root, 'scripts', 'bisect_last_build.log'), out)
-      if (out.includes('Error occurred prerendering page "/_global-error"') && out.includes('useContext')) {
-        return { ok: false, out }
-      }
-      return { ok: true, out }
+    const cmd =
+      'NODE_OPTIONS="--enable-source-maps --trace-warnings" npx next build --debug-prerender'
+    const child = execSync(cmd, { cwd: root, stdio: 'pipe', maxBuffer: 1024 * 1024 * 50 })
+    const out = child.toString()
+    fs.writeFileSync(path.join(root, 'scripts', 'bisect_last_build.log'), out)
+    if (
+      out.includes('Error occurred prerendering page "/_global-error"') &&
+      out.includes('useContext')
+    ) {
+      return { ok: false, out }
+    }
+    return { ok: true, out }
   } catch (err) {
-      const out = (err.stdout ? err.stdout.toString() : '') + '\n' + (err.stderr ? err.stderr.toString() : '')
-      fs.writeFileSync(path.join(root, 'scripts', 'bisect_last_build.log'), out)
-      if (out.includes('Error occurred prerendering page "/_global-error"') && out.includes('useContext')) {
-        return { ok: false, out }
-      }
-      // Unexpected build error: return a special result so caller can restore and abort safely
-      return { ok: null, out }
+    const out =
+      (err.stdout ? err.stdout.toString() : '') + '\n' + (err.stderr ? err.stderr.toString() : '')
+    fs.writeFileSync(path.join(root, 'scripts', 'bisect_last_build.log'), out)
+    if (
+      out.includes('Error occurred prerendering page "/_global-error"') &&
+      out.includes('useContext')
+    ) {
+      return { ok: false, out }
+    }
+    // Unexpected build error: return a special result so caller can restore and abort safely
+    return { ok: null, out }
   }
 }
 
@@ -133,20 +144,24 @@ while (low <= high) {
       break
     }
   } else if (res.ok === false) {
-    console.log(`Build still fails when stubbing [${low},${mid}]. Restoring and searching complement.`)
+    console.log(
+      `Build still fails when stubbing [${low},${mid}]. Restoring and searching complement.`
+    )
     for (const f of testSet) {
       if (fs.existsSync(f)) restore(f)
     }
     low = mid + 1
     if (low > high) break
   } else {
-    console.error('Unexpected build error during bisect. See scripts/bisect_last_build.log')
-    // restore and abort
+    // Unexpected build error (e.g. TypeScript issues) while stubbing this range.
+    // Log and treat this range as 'did not remove the prerender error' and continue with complement.
+    console.warn('Unexpected build error during bisect (logged). See scripts/bisect_last_build.log')
     for (const f of testSet) {
       if (fs.existsSync(f)) restore(f)
     }
-    restoreAll()
-    process.exit(3)
+    // move to the complement range
+    low = mid + 1
+    if (low > high) break
   }
 }
 
@@ -154,7 +169,9 @@ if (found) {
   console.log('Potential offending file found:', found)
   fs.writeFileSync(path.join(root, 'scripts', 'bisect_result.txt'), found)
 } else {
-  console.log('Bisect completed without isolating single file. Consider full bisect or manual review.')
+  console.log(
+    'Bisect completed without isolating single file. Consider full bisect or manual review.'
+  )
 }
 
 console.log('Restoring all backups...')
