@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>临时占位页面 — temp_vercel_deploy</title>
+    <style>
+      body { font-family: system-ui, -apple-system, "Helvetica Neue", Arial; background:#f7f7fb; color:#111; display:flex; align-items:center; justify-content:center; height:100vh; margin:0; }
+      .card { background:#fff; border:1px solid #e6e9ef; border-radius:12px; padding:28px; width:420px; box-shadow:0 6px 24px rgba(30,35,55,0.08); }
+      h1 { margin:0 0 8px; font-size:20px; }
+      p { margin:0 0 16px; color:#555; }
+      .meta { font-size:12px; color:#8b8f99; margin-bottom:14px; }
+      form { display:flex; flex-direction:column; gap:10px; }
+      input[type=text], input[type=password] { padding:10px 12px; border:1px solid #e3e6ee; border-radius:8px; }
+      button { padding:10px 12px; border-radius:8px; border:0; background:#2563eb; color:#fff; cursor:pointer; }
+      small { color:#8b8f99; display:block; margin-top:8px; }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>临时占位页面</h1>
+      <p>这是一个临时静态部署，用于确认站点可达性并提供临时登录入口。</p>
+      <div class="meta">部署时间：2025/11/29 11:20:11 — 项目：<code>temp_vercel_deploy</code></div>
+
+      <form id="login" action="#" onsubmit="alert('已提交（示例）'); return false;">
+        <input type="text" name="username" placeholder="用户名 / 邮箱" required />
+        <input type="password" name="password" placeholder="密码" required />
+        <button type="submit">临时登录</button>
+      </form>
+
+      <small>说明：该表单为占位示例，不会发送到后端。若需改为反向代理或 OAuth 登录，请回复我需要的形式。</small>
+    </div>
+  </body>
+</html>
