@@ -1,0 +1,46 @@
+Starting linear bisect over 45 client files
+
+[1/45] Testing: /Users/yanyu/Documents/张波/zhang/app/about/page.tsx
+  -> still failing prerender; restoring file and continuing
+
+[2/45] Testing: /Users/yanyu/Documents/张波/zhang/app/chat/page.tsx
+  -> still failing prerender; restoring file and continuing
+
+[3/45] Testing: /Users/yanyu/Documents/张波/zhang/app/entertainment/page.tsx
+  -> still failing prerender; restoring file and continuing
+
+[4/45] Testing: /Users/yanyu/Documents/张波/zhang/app/gallery/page.tsx
+  -> still failing prerender; restoring file and continuing
+
+[5/45] Testing: /Users/yanyu/Documents/张波/zhang/app/home/page.tsx
+  -> still failing prerender; restoring file and continuing
+
+[6/45] Testing: /Users/yanyu/Documents/张波/zhang/app/interaction/page.tsx
+  -> still failing prerender; restoring file and continuing
+
+[7/45] Testing: /Users/yanyu/Documents/张波/zhang/app/paginated-wedding.tsx
+  -> still failing prerender; restoring file and continuing
+
+[8/45] Testing: /Users/yanyu/Documents/张波/zhang/app/schedule/page.tsx
+  -> still failing prerender; restoring file and continuing
+
+[9/45] Testing: /Users/yanyu/Documents/张波/zhang/app/videos/page.tsx
+  -> still failing prerender; restoring file and continuing
+
+[10/45] Testing: /Users/yanyu/Documents/张波/zhang/components/client/register-sw.tsx
+  -> still failing prerender; restoring file and continuing
+
+[11/45] Testing: /Users/yanyu/Documents/张波/zhang/components/pwa-install-prompt.tsx
+  -> still failing prerender; restoring file and continuing
+
+[12/45] Testing: /Users/yanyu/Documents/张波/zhang/components/theme-provider.tsx
+  -> still failing prerender; restoring file and continuing
+
+[13/45] Testing: /Users/yanyu/Documents/张波/zhang/components/ui/label.tsx
+  -> still failing prerender; restoring file and continuing
+
+[14/45] Testing: /Users/yanyu/Documents/张波/zhang/components/ui/radio-group.tsx
+  -> PRERENDER ERROR disappeared when stubbing /Users/yanyu/Documents/张波/zhang/components/ui/radio-group.tsx
+
+Potential offending file found: /Users/yanyu/Documents/张波/zhang/components/ui/radio-group.tsx
+Linear bisect finished

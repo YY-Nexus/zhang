@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>临时占位 - zhang</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial;
+        margin: 6vh auto;
+        max-width: 720px;
+        padding: 24px;
+        color: #222;
+      }
+      a {
+        color: #d33;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>临时占位页面</h1>
+    <p>这是一个临时静态部署，用于确认站点可达性并提供临时登录入口。</p>
+    <p>若你需要，我可以把这个页面改为简单登录表单或反向代理入口。</p>
+    <p><strong>项目目录：</strong>`/Users/yanyu/Documents/张波`</p>
+    <p>部署时间：<span id="t"></span></p>
+    <script>
+      document.getElementById('t').textContent = new Date().toLocaleString()
+    </script>
+  </body>
+</html>

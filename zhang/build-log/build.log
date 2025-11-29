@@ -1,0 +1,26 @@
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+⚠ No build cache found. Please configure build caching for faster rebuilds. Read more: https://nextjs.org/docs/messages/no-cache
+   ▲ Next.js 16.0.3 (Turbopack)
+   - Experiments (use with caution):
+     · optimizePackageImports
+
+   Creating an optimized production build ...
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+ ✓ Compiled successfully in 7.6s
+   Running TypeScript ...
+Failed to compile.
+
+./components/wedding/gallery-section.tsx:255:13
+Type error: Type '(photo: (typeof galleryPhotos)[0]) => void' is not assignable to type '(photo: Photo) => void'.
+  Types of parameters 'photo' and 'photo' are incompatible.
+    Type 'Photo' is not assignable to type '{ id: number; src: string; category: string; title: string; likes: number; comments: { name: string; text: string; time: string; }[]; linkedMusic: { title: string; artist: string; }; aspectRatio: string; } | { ...; }'.
+      Property 'aspectRatio' is missing in type 'Photo' but required in type '{ id: number; src: string; category: string; title: string; likes: number; comments: { name: string; text: string; time: string; }[]; aspectRatio: string; linkedMusic?: undefined; }'.
+
+[0m [90m 253 |[39m             photo[33m=[39m{selectedPhoto}
+ [90m 254 |[39m             photos[33m=[39m{filteredPhotos()}
+[31m[1m>[22m[39m[90m 255 |[39m             onNavigate[33m=[39m{handleNavigate}
+ [90m     |[39m             [31m[1m^[22m[39m
+ [90m 256 |[39m             onClose[33m=[39m{() [33m=>[39m {
+ [90m 257 |[39m               setIsModalOpen([36mfalse[39m)
+ [90m 258 |[39m               setSelectedPhoto([36mnull[39m)[0m
+Next.js build worker exited with code: 1 and signal: null
