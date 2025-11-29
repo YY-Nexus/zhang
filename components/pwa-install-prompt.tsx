@@ -21,9 +21,10 @@ export default function PWAInstallPrompt() {
     setIsIOS(ios)
 
     // 检测是否已安装（standalone 模式）
-    const standalone = window.matchMedia('(display-mode: standalone)').matches ||
-                      (window.navigator as any).standalone ||
-                      document.referrer.includes('android-app://')
+    const standalone =
+      window.matchMedia('(display-mode: standalone)').matches ||
+      (window.navigator as any).standalone ||
+      document.referrer.includes('android-app://')
     setIsStandalone(standalone)
 
     // 如果已经是 standalone 模式，不显示提示
@@ -41,7 +42,7 @@ export default function PWAInstallPrompt() {
       e.preventDefault()
       const promptEvent = e as BeforeInstallPromptEvent
       setDeferredPrompt(promptEvent)
-      
+
       // 延迟显示提示（等待页面加载完成）
       setTimeout(() => {
         setShowPrompt(true)
@@ -70,7 +71,7 @@ export default function PWAInstallPrompt() {
 
     // 等待用户响应
     const { outcome } = await deferredPrompt.userChoice
-    
+
     if (outcome === 'accepted') {
       console.log('用户接受了安装')
     } else {
@@ -102,7 +103,7 @@ export default function PWAInstallPrompt() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 100 }}
           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-          className="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-96 z-[200] bg-card/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-border overflow-hidden"
+          className="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-96 z-200 bg-card/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-border overflow-hidden"
         >
           {/* 关闭按钮 */}
           <button
@@ -117,19 +118,13 @@ export default function PWAInstallPrompt() {
           <div className="p-6">
             <div className="flex items-start gap-4">
               {/* Logo */}
-              <div className="w-16 h-16 rounded-xl bg-gold/10 flex items-center justify-center flex-shrink-0">
-                <img
-                  src="/yyc3-logo-blue.png"
-                  alt="YYC³"
-                  className="w-12 h-12 object-contain"
-                />
+              <div className="w-16 h-16 rounded-xl bg-gold/10 flex items-center justify-center shrink-0">
+                <img src="/yyc3-logo-blue.png" alt="YYC³" className="w-12 h-12 object-contain" />
               </div>
 
               {/* 文字 */}
               <div className="flex-1">
-                <h3 className="text-lg font-bold text-foreground mb-1">
-                  📱 安装到主屏幕
-                </h3>
+                <h3 className="text-lg font-bold text-foreground mb-1">📱 安装到主屏幕</h3>
                 <p className="text-sm text-muted-foreground mb-3">
                   将婚礼邀请函添加到主屏幕，随时查看婚礼信息
                 </p>
@@ -139,7 +134,9 @@ export default function PWAInstallPrompt() {
                   <div className="bg-muted/50 rounded-lg p-3 mb-3 text-xs text-muted-foreground">
                     <p className="mb-2 font-medium text-foreground">📌 iOS 安装步骤：</p>
                     <ol className="space-y-1 list-decimal list-inside">
-                      <li>点击浏览器底部的"分享"按钮 <span className="inline-block">📤</span></li>
+                      <li>
+                        点击浏览器底部的"分享"按钮 <span className="inline-block">📤</span>
+                      </li>
                       <li>选择"添加到主屏幕"</li>
                       <li>点击"添加"确认</li>
                     </ol>
@@ -192,4 +189,3 @@ export default function PWAInstallPrompt() {
     </AnimatePresence>
   )
 }
-

@@ -48,9 +48,7 @@ export default function BigModelDemoClient() {
         </button>
       </form>
 
-      {result && (
-        <pre className="mt-3 p-3 bg-muted rounded text-xs overflow-auto">{result}</pre>
-      )}
+      {result && <pre className="mt-3 p-3 bg-muted rounded text-xs overflow-auto">{result}</pre>}
     </div>
   )
 }

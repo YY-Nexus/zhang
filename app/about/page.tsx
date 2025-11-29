@@ -23,7 +23,7 @@ const PWAInstallPrompt = dynamic(() => import('../../components/pwa-install-prom
  */
 export default function AboutPage() {
   return (
-    <div className="relative w-full min-h-screen bg-gradient-to-b from-graphite via-graphite/95 to-graphite/90">
+    <div className="relative w-full min-h-screen bg-linear-to-b from-graphite via-graphite/95 to-graphite/90">
       {/* 顶部导航栏 */}
       <Navbar currentPage="about" />
 
