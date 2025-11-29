@@ -1,4 +1,4 @@
-name: CI — Clean Build
+name: CI - Clean Build
 
 on:
     push:
